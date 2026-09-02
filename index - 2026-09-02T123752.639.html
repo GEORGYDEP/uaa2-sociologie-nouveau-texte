@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enquête sociologique — Normes, valeurs et socialisation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e1016; --bg2:#161a24; --bg3:#0a0c12; --card:#1a1f2b;
+  --accent:#22d68a; --orange:#ff8a3d; --violet:#9d7cf4; --blue:#4bb8ff;
+  --text:#e9ecf3; --text2:#98a1b2; --text3:#697083;
+  --border:#272d3a; --radius:16px; --success:#22d68a; --error:#ff4060;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:
+    radial-gradient(1100px 600px at 12% -8%, rgba(157,124,244,.16), transparent 60%),
+    radial-gradient(900px 520px at 105% 4%, rgba(34,214,138,.13), transparent 58%),
+    var(--bg);
+  color:var(--text); font-family:'Outfit',system-ui,sans-serif; font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased; padding-bottom:48px;
+}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- HEADER ---------- */
+.topbar{position:sticky;top:0;z-index:900;background:rgba(14,16,22,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.topbar-in{max-width:960px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.02em}
+.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--violet);box-shadow:0 0 12px var(--violet)}
+.brand span{font-size:.95rem}
+.hstats{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:.82rem;color:var(--text2)}
+.hstat b{color:var(--accent);font-weight:800}
+#globalTimer{font-family:'Space Mono',monospace;font-size:.82rem;color:var(--text2);display:none}
+.progress-rail{height:3px;background:var(--bg3)}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--accent));transition:width .45s ease}
+
+.wrap{max-width:960px;margin:0 auto;padding:24px 18px}
+.screen{display:none}
+.screen.on{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------- HOME ---------- */
+.hero{padding:38px 0 10px}
+.kicker{font-size:.8rem;color:var(--violet);font-weight:700;letter-spacing:.06em}
+.hero h1{font-size:clamp(2rem,6vw,3.1rem);line-height:1.02;font-weight:900;letter-spacing:-.035em;margin:10px 0 14px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.lede{color:var(--text2);max-width:60ch;font-size:1.02rem}
+.mission{margin:26px 0;border:1px solid var(--border);border-left:3px solid var(--violet);background:var(--bg2);border-radius:12px;padding:18px 20px}
+.mission h3{font-size:.95rem;margin-bottom:10px}
+.mission ol{margin-left:20px;color:var(--text2);font-size:.93rem}
+.mission ol li{margin:5px 0}
+.mission ol li b{color:var(--text)}
+.idcard{display:inline-flex;gap:10px;align-items:center;font-size:.82rem;color:var(--text2);background:var(--bg2);border:1px solid var(--border);border-radius:99px;padding:7px 14px;margin-bottom:18px}
+.idcard b{color:var(--accent)}
+
+.btn{border:none;border-radius:12px;padding:14px 26px;font-weight:800;font-size:1rem;cursor:pointer;transition:transform .12s,box-shadow .2s}
+.btn:active{transform:translateY(1px)}
+.btn-main{background:var(--accent);color:#0b0e14;box-shadow:0 8px 26px rgba(34,214,138,.24)}
+.btn-ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.btn-orange{background:transparent;color:var(--orange);border:1px solid var(--orange)}
+.btn-soft{background:var(--bg2);color:var(--text);border:1px solid var(--border)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* ---------- HUB ---------- */
+.hub-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.hub-head h2{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.hub-head p{color:var(--text2);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:14px;margin-top:20px}
+.lvl{position:relative;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;cursor:pointer;transition:border-color .18s,transform .18s;text-align:left;color:inherit;width:100%}
+.lvl:hover:not(.locked){border-color:var(--accent);transform:translateY(-2px)}
+.lvl .no{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--text3)}
+.lvl .ic{font-size:1.7rem;display:block;margin:4px 0 6px}
+.lvl h4{font-size:1.02rem;font-weight:700;line-height:1.25;margin-bottom:5px}
+.lvl p{font-size:.82rem;color:var(--text2)}
+.lvl.locked{opacity:.42;cursor:not-allowed}
+.lvl .badge{position:absolute;top:14px;right:14px;font-size:1rem}
+.lvl.done{border-color:rgba(34,214,138,.45)}
+.lvl .bar{height:4px;background:var(--bg3);border-radius:9px;margin-top:12px;overflow:hidden}
+.lvl .bar i{display:block;height:100%;background:var(--accent);width:0}
+
+/* ---------- LEVEL ---------- */
+.lvl-top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.back{background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:10px;padding:8px 13px;font-size:.83rem;cursor:pointer}
+.lvl-title{font-size:1.15rem;font-weight:800;letter-spacing:-.02em}
+.pill{margin-left:auto;font-family:'Space Mono',monospace;font-size:.76rem;color:var(--text2);background:var(--bg2);border:1px solid var(--border);border-radius:99px;padding:5px 12px}
+
+.theory{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px}
+.theory h3{font-size:.98rem;margin-bottom:10px;color:var(--violet)}
+.theory p{font-size:.93rem;color:var(--text2);margin:8px 0}
+.theory b{color:var(--text)}
+.theory ul{margin:8px 0 8px 20px;font-size:.93rem;color:var(--text2)}
+.theory li{margin:4px 0}
+.theory .ex{border-left:2px solid var(--border);padding-left:12px;font-size:.88rem;color:var(--text3);margin-top:10px;font-style:italic}
+.goal{background:rgba(157,124,244,.09);border:1px solid rgba(157,124,244,.3);border-radius:12px;padding:12px 16px;font-size:.88rem;color:var(--text2);margin-bottom:18px}
+.goal b{color:var(--violet)}
+
+.article{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:20px}
+.article h3{font-size:1.12rem;line-height:1.25;margin-bottom:4px}
+.article .src{font-size:.76rem;color:var(--text3);margin-bottom:14px;font-family:'Space Mono',monospace}
+.article p{font-size:.94rem;color:var(--text2);margin:9px 0}
+.article p b{color:var(--text)}
+details.article-fold summary{cursor:pointer;color:var(--accent);font-size:.88rem;font-weight:700;padding:12px 0;list-style:none}
+details.article-fold summary::-webkit-details-marker{display:none}
+
+.qcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px}
+.qnum{font-family:'Space Mono',monospace;font-size:.74rem;color:var(--text3);margin-bottom:8px}
+.qtext{font-size:1.08rem;font-weight:600;line-height:1.4;margin-bottom:6px}
+.qsub{font-size:.87rem;color:var(--text2);margin-bottom:16px}
+.qsit{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:.94rem;color:var(--text2)}
+.qsit b{color:var(--text)}
+
+.opts{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.opt{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:13px 16px;font-size:.95rem;color:var(--text);cursor:pointer;text-align:left;display:flex;gap:11px;align-items:flex-start;transition:border-color .15s,background .15s}
+.opt:hover:not(:disabled){border-color:var(--text3)}
+.opt .mark{flex:0 0 20px;height:20px;border-radius:6px;border:1.5px solid var(--text3);margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800}
+.opt.sel{border-color:var(--violet)}
+.opt.sel .mark{background:var(--violet);border-color:var(--violet);color:#0b0e14}
+.opt.good{border-color:var(--success);background:rgba(34,214,138,.1)}
+.opt.bad{border-color:var(--error);background:rgba(255,64,96,.09)}
+.opt.dim{opacity:.42}
+.opt:disabled{cursor:default}
+
+.fb{margin-top:16px;border-radius:12px;padding:15px 17px;font-size:.92rem;animation:fade .25s ease}
+.fb.ok{background:rgba(34,214,138,.1);border:1px solid rgba(34,214,138,.35)}
+.fb.hint{background:rgba(255,138,61,.1);border:1px solid rgba(255,138,61,.35)}
+.fb.no{background:rgba(255,64,96,.09);border:1px solid rgba(255,64,96,.32)}
+.fb h5{font-size:.95rem;margin-bottom:6px}
+.fb.ok h5{color:var(--success)} .fb.hint h5{color:var(--orange)} .fb.no h5{color:var(--error)}
+.fb p{color:var(--text2)}
+.fb p+p{margin-top:7px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* ---------- SORTING (classer) ---------- */
+.pool{display:flex;flex-wrap:wrap;gap:8px;min-height:46px;padding:12px;background:var(--bg3);border:1px dashed var(--border);border-radius:12px;margin:6px 0 14px}
+.chip{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:9px 13px;font-size:.87rem;cursor:pointer;color:var(--text);transition:border-color .15s}
+.chip:hover{border-color:var(--text3)}
+.chip.sel{border-color:var(--violet);background:rgba(157,124,244,.14)}
+.chip.good{border-color:var(--success);background:rgba(34,214,138,.12)}
+.chip.bad{border-color:var(--error);background:rgba(255,64,96,.1)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.bin{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;min-height:110px;cursor:pointer;transition:border-color .15s}
+.bin.hot{border-color:var(--violet)}
+.bin h5{font-size:.86rem;margin-bottom:4px}
+.bin .cap{font-size:.74rem;color:var(--text3);margin-bottom:10px}
+.bin .items{display:flex;flex-wrap:wrap;gap:7px}
+.hintline{font-size:.83rem;color:var(--text3);margin:8px 0 12px}
+
+/* ---------- BANK + SLOTS ---------- */
+.bank{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:var(--bg3);border:1px dashed var(--border);border-radius:12px;margin:6px 0 16px}
+.slot{display:inline-flex;align-items:center;justify-content:center;min-width:120px;min-height:38px;padding:7px 12px;border:1.5px dashed var(--text3);border-radius:9px;font-size:.86rem;color:var(--text3);cursor:pointer;background:rgba(255,255,255,.02);text-align:center}
+.slot.filled{border-style:solid;border-color:var(--violet);color:var(--text);background:rgba(157,124,244,.12);font-weight:700}
+.slot.good{border-color:var(--success);background:rgba(34,214,138,.13);color:var(--text)}
+.slot.bad{border-color:var(--error);background:rgba(255,64,96,.1);color:var(--text)}
+.pairs{display:flex;flex-direction:column;gap:10px}
+.pair{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:12px 14px;flex-wrap:wrap}
+.pair .lbl{flex:1;min-width:190px;font-size:.9rem}
+.order-list{display:flex;flex-direction:column;gap:10px}
+.order-row{display:flex;align-items:center;gap:12px}
+.order-n{flex:0 0 30px;height:30px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.8rem;color:var(--violet);font-weight:700}
+.order-row .slot{flex:1;min-height:44px}
+
+/* ---------- TABLE BUILDER ---------- */
+.tbuild{width:100%;border-collapse:separate;border-spacing:6px;margin-bottom:18px;font-size:.83rem}
+.tbuild th{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:9px;color:var(--text2);font-size:.76rem;font-weight:700}
+.tbuild th.rowh{text-align:left;color:var(--text);font-size:.85rem;width:24%}
+.tbuild td{background:var(--bg2);border:1px dashed var(--border);border-radius:9px;padding:11px 9px;text-align:center;color:var(--text3);min-height:44px}
+.tbuild td.filled{border-style:solid;border-color:var(--accent);color:var(--text);background:rgba(34,214,138,.1);font-weight:700;animation:pop .35s ease}
+@keyframes pop{0%{transform:scale(.85);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
+.tbuild tr.f th.rowh{border-left:3px solid var(--blue)}
+.tbuild tr.i th.rowh{border-left:3px solid var(--orange)}
+
+/* ---------- SCHEMA ---------- */
+.schema{display:flex;flex-direction:column;align-items:center;gap:0;background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:20px 14px;margin-bottom:8px}
+.sbox{border:1px solid var(--border);background:var(--bg2);border-radius:12px;padding:12px 16px;text-align:center;max-width:430px;width:100%}
+.sbox .def{font-size:.79rem;color:var(--text3);margin-top:4px;line-height:1.35}
+.arrow{color:var(--text3);font-size:.78rem;text-align:center;padding:8px 0;font-family:'Space Mono',monospace}
+.sbranch{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:560px}
+.sbranch .col{display:flex;flex-direction:column;align-items:center;gap:8px}
+.sbranch .col .tag{font-size:.72rem;color:var(--text3);text-align:center}
+.sanct{border-radius:12px;padding:11px 13px;text-align:center;width:100%;border:1px solid var(--border);background:var(--bg2)}
+.sanct .who{font-size:.75rem;color:var(--text3);margin-bottom:5px}
+
+/* ---------- MEMO / SYNTHESIS ---------- */
+.memo{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
+.mcard{background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:16px;border-top:3px solid var(--violet)}
+.mcard.g{border-top-color:var(--accent)} .mcard.o{border-top-color:var(--orange)} .mcard.b{border-top-color:var(--blue)}
+.mcard h4{font-size:.95rem;margin-bottom:7px}
+.mcard p{font-size:.86rem;color:var(--text2)}
+.mcard ul{margin:6px 0 0 18px;font-size:.85rem;color:var(--text2)}
+.timeline{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.tl{flex:1;min-width:170px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px}
+.tl .age{font-family:'Space Mono',monospace;font-size:.74rem;color:var(--orange);margin-bottom:6px}
+.tl ul{margin-left:17px;font-size:.85rem;color:var(--text2)}
+
+/* ---------- RESULTS ---------- */
+.res-head{text-align:center;padding:26px 0 8px}
+.medal{font-size:3.6rem;animation:pop .5s ease}
+.res-head h2{font-size:1.7rem;font-weight:800;margin:6px 0}
+.res-head p{color:var(--text2)}
+.legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;font-size:.82rem;color:var(--text2);margin:18px 0}
+.legend span{display:flex;align-items:center;gap:6px}
+.dotc{width:10px;height:10px;border-radius:50%}
+.tbl{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:10px;background:var(--bg2);border-radius:12px;overflow:hidden}
+.tbl th,.tbl td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--border)}
+.tbl th{font-size:.75rem;color:var(--text3);font-weight:700}
+.tbl td.n{text-align:center;font-family:'Space Mono',monospace}
+.scorebig{font-size:3rem;font-weight:900;letter-spacing:-.04em;color:var(--accent);font-family:'Space Mono',monospace}
+.gradebox{text-align:center;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;margin:18px 0}
+.gradebox .g{font-size:2.4rem;font-weight:900}
+
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.cf{position:absolute;width:9px;height:14px;opacity:.95;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+
+@media (max-width:768px){
+  .wrap{padding:18px 14px}
+  .hero{padding:26px 0 6px}
+  .tbuild{font-size:.76rem;border-spacing:4px}
+  .tbuild th.rowh{width:26%}
+  .sbranch{max-width:100%}
+}
+@media (max-width:480px){
+  .hstats{width:100%;margin-left:0;justify-content:space-between}
+  .qcard{padding:16px}
+  .grid{grid-template-columns:1fr}
+  .tbuild{font-size:.7rem}
+  .tbuild td{padding:8px 4px}
+  .slot{min-width:96px;font-size:.8rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== MODAL EMAIL ===== -->
+<div id="emailOverlay" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:420px;width:90%;text-align:center;box-shadow:0 0 40px rgba(0,0,0,0.5);">
+    <div style="font-size:2rem;margin-bottom:12px;">🎓</div>
+    <h2 style="font-size:1.3rem;margin-bottom:4px;">Identification</h2>
+    <p style="font-size:0.85rem;color:var(--text2);margin-bottom:20px;">Entre ton adresse email scolaire pour commencer.</p>
+    <input type="email" id="emailInput" placeholder="prenom.nom@eleve.istlm.be"
+      style="width:100%;padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:1rem;outline:none;margin-bottom:12px;font-family:inherit;"
+      onkeydown="if(event.key==='Enter')validateEmail()">
+    <div id="emailError" style="color:#ff4060;font-size:0.82rem;margin-bottom:12px;min-height:1.2em;"></div>
+    <button id="emailBtn" onclick="validateEmail()"
+      style="width:100%;padding:12px;border-radius:10px;border:none;background:var(--accent);color:#0f1117;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.2s;">
+      ✅ Vérifier et commencer
+    </button>
+  </div>
+</div>
+
+<!-- ===== MODAL CLASSEMENT ===== -->
+<div id="lbOverlay" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);" onclick="if(event.target===this)closeLB()">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;width:95%;max-width:600px;max-height:85vh;overflow-y:auto;box-shadow:0 0 40px rgba(0,0,0,0.5);">
+    <button onclick="closeLB()" style="position:absolute;top:12px;right:12px;background:none;border:none;color:var(--text2);font-size:1.5rem;cursor:pointer;">✕</button>
+    <div id="lbTitle" style="font-size:.95rem;font-weight:800;margin-bottom:14px;"></div>
+    <div style="display:flex;gap:8px;margin-bottom:20px;">
+      <button id="lbTabApp" onclick="switchLBTab('app')" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:#0f1117;font-weight:700;cursor:pointer;font-family:inherit;font-size:0.85rem;">🏆 Cette application</button>
+      <button id="lbTabGlobal" onclick="switchLBTab('global')" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--orange);background:transparent;color:var(--orange);font-weight:700;cursor:pointer;font-family:inherit;font-size:0.85rem;">🌍 Classement général</button>
+    </div>
+    <div id="lbContent"><div style="text-align:center;padding:40px;color:var(--text2);">Chargement…</div></div>
+  </div>
+</div>
+
+<div id="confetti"></div>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><span class="dot"></span><span>Enquête sociologique</span></div>
+    <div class="hstats">
+      <span id="globalTimer">⏱️ 00:00</span>
+      <span class="hstat">Score <b id="hScore">0</b></span>
+      <span class="hstat">Niveaux <b id="hLvl">0/9</b></span>
+    </div>
+  </div>
+  <div class="progress-rail"><div class="progress-fill" id="pFill"></div></div>
+</header>
+
+<div class="wrap">
+
+  <!-- ================= ACCUEIL ================= -->
+  <section class="screen on" id="screenHome">
+    <div class="hero">
+      <div class="kicker">UAA1 — Normes et société · Formation sociale et économique</div>
+      <h1>Pourquoi fait-on ce qu'on fait&nbsp;? <em>Enquête.</em></h1>
+      <p class="lede">Un stagiaire filme un collègue pour faire rire ses amis : six jours plus tard, son stage s'arrête. Derrière cette histoire, il y a des règles apprises quelque part, des idéaux et des punitions. Tu vas apprendre à les repérer.</p>
+    </div>
+
+    <div id="idBox"></div>
+
+    <div class="mission">
+      <h3>Ta méthode d'enquête en 4 étapes</h3>
+      <ol>
+        <li><b>Les agents de socialisation</b> — qui a appris à vivre en société au personnage&nbsp;? Cite-les tous.</li>
+        <li><b>La norme</b> — quelle règle n'a pas été respectée&nbsp;? Est-elle formelle ou informelle&nbsp;?</li>
+        <li><b>La valeur</b> — quel idéal se cache derrière cette règle&nbsp;?</li>
+        <li><b>La sanction</b> — qu'est-ce que le personnage a récolté&nbsp;? Est-ce explicite ou non&nbsp;?</li>
+      </ol>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-main" onclick="goHub()">Commencer l'enquête</button>
+      <button class="btn btn-ghost" onclick="openLB('app')">🏆 Classement</button>
+      <button class="btn btn-orange" onclick="openLB('global')">🌍 Général</button>
+    </div>
+  </section>
+
+  <!-- ================= HUB ================= -->
+  <section class="screen" id="screenHub">
+    <div class="hub-head">
+      <h2>Les 9 étapes de l'enquête</h2>
+      <p>Choisis l'étape que tu veux. Si tu reviens plus tard, reprends là où tu t'étais arrêté.</p>
+    </div>
+    <div class="grid" id="hubGrid"></div>
+    <div id="hubFinal"></div>
+    <div class="btn-row"><button class="btn btn-soft" onclick="show('screenHome')">← Accueil</button></div>
+  </section>
+
+  <!-- ================= NIVEAU ================= -->
+  <section class="screen" id="screenLevel">
+    <div class="lvl-top">
+      <button class="back" onclick="goHub()">← Étapes</button>
+      <div class="lvl-title" id="lvTitle"></div>
+      <div class="pill" id="lvPill"></div>
+    </div>
+    <div id="lvIntro"></div>
+    <div id="lvBody"></div>
+  </section>
+
+  <!-- ================= BILAN NIVEAU ================= -->
+  <section class="screen" id="screenResult">
+    <div id="resBody"></div>
+  </section>
+
+  <!-- ================= BILAN FINAL ================= -->
+  <section class="screen" id="screenFinal">
+    <div id="finBody"></div>
+  </section>
+
+</div>
+<script>
+/* =========================================================
+   DONNÉES PÉDAGOGIQUES — 9 niveaux
+   ========================================================= */
+
+const ARTICLE = `
+<div class="article">
+  <h3>« C'était juste pour rire » — un stage interrompu au bout de six jours</h3>
+  <div class="src">Situation reconstituée à partir de cas rapportés par des écoles et des entreprises. Les prénoms ont été modifiés.</div>
+  <p><b>Enzo a 17 ans.</b> Il est en cinquième année et effectue son stage dans une entreprise de la région de Mons. Sixième jour. Pendant la pause, un magasinier d'une cinquantaine d'années glisse sur une flaque et se rattrape de justesse à un rayonnage. Enzo, son GSM déjà en main, filme la scène. Le soir même, la vidéo part en story avec trois émojis qui rient. Quarante vues.</p>
+  <p>Le lendemain matin, la vidéo circule dans l'atelier. Le magasinier ne dit rien, mais ne lui adresse plus la parole. Les deux collègues avec qui il mangeait à midi mangent ailleurs.</p>
+  <p>À quatorze heures, le responsable le convoque. La <b>convention de stage</b> qu'Enzo a signée en septembre avec ses parents et l'école interdit toute prise d'image dans l'entreprise sans autorisation ; le <b>règlement de travail</b> affiché à l'entrée le rappelle. Le stage est interrompu et un rapport part à l'école, qui décidera de la suite.</p>
+  <p>« Chez moi tout le monde filme tout, mes potes aussi. Je ne pensais pas que c'était grave », explique Enzo. « Sur le coup, ça faisait juste rire. »</p>
+</div>`;
+
+const LEVELS = [
+/* ============ NIVEAU 1 ============ */
+{
+  icon:"📱", title:"Six jours de stage", sub:"Lire les faits avec précision",
+  goal:"Comprendre exactement ce qui s'est passé. Une bonne analyse sociologique commence toujours par une lecture attentive des faits.",
+  article:true,
+  questions:[
+    {type:"qcm", q:"Que reproche-t-on exactement à Enzo ?",
+     options:["D'avoir filmé un collègue sans son autorisation et publié la vidéo","D'avoir bousculé un magasinier dans l'atelier","D'être arrivé en retard six jours de suite","D'avoir sorti son GSM pendant les heures de travail"],
+     correct:0, hint:"Relis ce qu'interdit précisément la convention de stage. Ce n'est pas le téléphone en lui-même qui pose problème.",
+     exp:"Ce n'est ni le téléphone ni la pause qui sont en cause : c'est le fait d'avoir capté l'image de quelqu'un sans son accord, puis de l'avoir diffusée."},
+    {type:"qcm", q:"Que s'est-il passé exactement pendant la pause ?",
+     options:["Un magasinier a glissé et s'est rattrapé de justesse","Un magasinier est tombé et a été hospitalisé","Enzo a glissé sur une flaque devant ses collègues","Deux collègues se sont disputés au réfectoire"],
+     correct:0,
+     exp:"Le magasinier n'est même pas blessé : il se rattrape. Retiens ce détail, il montre que la gravité d'un acte ne se mesure pas seulement aux dégâts physiques."},
+    {type:"qcm", q:"Quel document Enzo avait-il signé en septembre ?",
+     options:["La convention de stage, avec ses parents et l'école","Un contrat de travail à durée déterminée","Le règlement de travail de l'entreprise","Une autorisation de droit à l'image"],
+     correct:0,
+     exp:"La convention de stage est signée par le stagiaire, ses parents, l'école et l'entreprise. Le règlement de travail existe aussi, mais il est affiché à l'entrée : Enzo ne l'a pas signé."},
+    {type:"multi", pts:20, q:"Quelles conséquences le texte décrit-il après la publication de la vidéo ?", qsub:"Plusieurs réponses sont correctes.",
+     options:["Le magasinier ne lui adresse plus la parole","Deux collègues ne mangent plus avec lui","Le responsable met fin au stage","Un rapport est envoyé à l'école","La police ouvre une enquête","Le magasinier réclame des dommages et intérêts"],
+     multi:[0,1,2,3],
+     hint:"Distingue ce que le texte affirme réellement de ce que tu imagines possible. Rien n'indique que la justice s'en mêle.",
+     exp:"Quatre conséquences apparaissent : deux viennent de l'entreprise (fin du stage, rapport à l'école), deux viennent des personnes elles-mêmes (le silence, les collègues qui s'éloignent). Aucune procédure judiciaire n'est évoquée."},
+    {type:"qcm", q:"Qui a décidé d'interrompre le stage ?",
+     options:["Le responsable de l'entreprise","L'école, après avoir reçu le rapport","Le magasinier qui avait été filmé","Les parents d'Enzo"],
+     correct:0, hint:"Le texte décrit deux décisions différentes : une qui tombe à quatorze heures, une autre qui viendra plus tard.",
+     exp:"L'entreprise interrompt le stage immédiatement. L'école, elle, décidera plus tard d'une éventuelle sanction : ce sont deux autorités distinctes qui interviennent l'une après l'autre."},
+    {type:"qcm", q:"« Chez moi tout le monde filme tout, mes potes aussi. Je ne pensais pas que c'était grave. » Que révèle cette phrase ?",
+     options:["Enzo appliquait une règle apprise ailleurs, qui ne vaut pas dans l'entreprise","Enzo connaissait parfaitement la règle et a voulu la défier","Enzo ne respecte aucune règle, nulle part","Enzo rejette la faute sur ses amis"],
+     correct:0, hint:"Il ne dit pas qu'il vit sans règles. Il dit de qui il tient les siennes.",
+     exp:"Enzo a bien appris des règles : chez lui et chez ses amis, filmer et publier est banal. Le problème, c'est que ces règles-là ne valent pas dans le groupe où il vient d'entrer. Tu vas voir que cela porte un nom."}
+  ]
+},
+
+/* ============ NIVEAU 2 ============ */
+{
+  icon:"📏", title:"Les normes : écrites ou pas ?", sub:"Formelles et informelles",
+  goal:"Reconnaître une norme, et dire si elle est formelle (écrite) ou informelle (non écrite).",
+  theory:`<h3>Ce qu'il faut savoir avant de commencer</h3>
+    <p>Une <b>norme</b> est une règle de conduite que les membres d'un groupe sont censés respecter. Sans normes, la vie en groupe devient impossible.</p>
+    <ul>
+      <li>Une norme <b>formelle</b> est <b>écrite</b> quelque part : une loi, un règlement, un contrat.</li>
+      <li>Une norme <b>informelle</b> n'est <b>écrite nulle part</b> : on l'apprend en observant les autres.</li>
+    </ul>
+    <p class="ex">Exemples : porter un casque à moto est écrit dans le code de la route (norme formelle). Ne pas passer devant tout le monde dans la file d'un magasin n'est écrit nulle part, et pourtant tout le monde le sait (norme informelle).</p>
+    <p>Attention : une norme n'est pas universelle. Elle appartient à un groupe, à une époque et à un endroit précis.</p>`,
+  questions:[
+    {type:"qcm", q:"« Au réfectoire, on attend que toute la table soit servie avant de commencer à manger. Personne ne l'a jamais écrit, mais tout le monde le fait. » De quoi s'agit-il ?",
+     options:["D'une norme informelle","D'une norme formelle","D'une valeur","D'une sanction"],
+     correct:0,
+     exp:"C'est une règle de conduite (donc une norme), transmise par l'usage et non par un texte : elle est informelle."},
+    {type:"qcm", q:"Le règlement d'ordre intérieur (ROI) de l'école — le document écrit qui fixe les règles de l'établissement — interdit l'usage du GSM en classe. Cette norme est…",
+     options:["Formelle, parce qu'elle est écrite dans un règlement","Informelle, parce que ce n'est pas une loi","Une valeur, parce qu'elle défend la concentration","Ni l'un ni l'autre : ce n'est pas une vraie règle"],
+     correct:0,
+     exp:"Une norme est formelle dès qu'elle est écrite dans un texte officiel. Il ne s'agit pas forcément d'une loi : un règlement d'école ou de club suffit."},
+    {type:"classer", pts:20, q:"Trie ces huit situations.", qsub:"Clique une étiquette, puis clique la colonne où tu veux la déposer. Pour la ressortir, clique-la à nouveau.",
+     bins:[{name:"Norme FORMELLE",cap:"Écrite dans un texte"},{name:"Norme INFORMELLE",cap:"Nulle part écrite"}],
+     items:[
+       {t:"Rouler à 30 km/h devant l'école",b:0},
+       {t:"Laisser sa place assise à une personne âgée",b:1},
+       {t:"Signer un contrat avant de commencer un job étudiant",b:0},
+       {t:"Éteindre son micro quand on ne parle pas en visio",b:1},
+       {t:"Porter une tenue de sport au cours d'éducation physique",b:0},
+       {t:"Apporter un petit cadeau quand on est invité",b:1},
+       {t:"Payer la TVA (taxe sur la valeur ajoutée) sur ses achats",b:0},
+       {t:"Baisser la voix quand un bébé dort dans la pièce",b:1}
+     ],
+     hint:"Pose-toi une seule question pour chaque étiquette : « Est-ce que je pourrais montrer un document où c'est écrit ? »",
+     exp:"Le critère est unique et infaillible : la règle est-elle écrite dans un texte (loi, règlement, contrat) ? Si oui, elle est formelle. Sinon, elle est informelle, même si tout le monde la respecte."},
+    {type:"qcm", q:"Depuis 2011, il est interdit de fumer dans les cafés belges, alors que c'était autorisé avant. Que montre cet exemple ?",
+     options:["Les normes évoluent dans le temps","Les normes informelles deviennent toujours des lois","Une norme formelle ne peut jamais changer","Les Belges n'ont pas de normes stables"],
+     correct:0,
+     exp:"Une norme appartient à une époque. Ce qui était normal hier peut être interdit aujourd'hui, et l'inverse est vrai aussi."},
+    {type:"qcm", q:"En Belgique, on se salue par une poignée de main ; au Japon, on s'incline sans se toucher. Que montre cet exemple ?",
+     options:["Les normes varient d'un endroit à l'autre","Les Japonais n'ont pas de normes de politesse","La poignée de main est une norme formelle","Une seule des deux façons de faire est correcte"],
+     correct:0,
+     exp:"Une norme appartient aussi à un espace. Les deux salutations sont correctes : chacune dans son groupe culturel."},
+    {type:"qcm", q:"Dans une entreprise, l'habitude de se saluer chaque matin est ajoutée par écrit au règlement de travail. Que devient cette norme ?",
+     options:["Elle devient formelle : elle est désormais écrite","Elle reste informelle : c'est juste de la politesse","Elle devient une valeur","Elle disparaît, puisqu'elle était déjà respectée"],
+     correct:0, hint:"Le seul critère qui compte, c'est le support : un texte ou pas de texte.",
+     exp:"Une même règle peut changer de catégorie. En passant à l'écrit, la norme devient formelle et son non-respect peut être sanctionné officiellement."}
+  ]
+},
+
+/* ============ NIVEAU 3 ============ */
+{
+  icon:"👥", title:"Qui t'a appris tout ça ?", sub:"La socialisation et ses agents",
+  goal:"Identifier les agents de socialisation d'une personne, et comprendre ce qui se passe quand deux agents n'enseignent pas la même chose.",
+  theory:`<h3>Ce qu'il faut savoir avant de commencer</h3>
+    <p>Parler correctement, dire bonjour, manger avec des couverts, attendre son tour : ces comportements te semblent naturels. Ils ne le sont pas. Tu les as <b>appris</b>.</p>
+    <p>La <b>socialisation</b> est l'apprentissage de la vie en société : on y apprend les <b>valeurs</b>, les <b>normes</b> et les <b>rôles sociaux</b>.</p>
+    <p>Les <b>agents de socialisation</b> sont les <b>groupes sociaux</b> qui te transmettent ces règles. Retiens bien : un agent est toujours un <i>groupe de personnes</i>, jamais un objet, jamais une règle, jamais un idéal.</p>
+    <p class="ex">Exemple : le jour où tu entres dans une nouvelle salle de sport, personne ne t'explique qu'on essuie l'appareil après usage. Tu l'apprends en regardant les autres. Ce groupe vient de te socialiser.</p>`,
+  questions:[
+    {type:"multi", pts:20, q:"Yasmine a 17 ans. Elle vit avec ses parents et sa sœur, joue au basket depuis ses 8 ans, vient de terminer un stage en pharmacie et passe du temps chaque soir sur les réseaux sociaux. Cite TOUS ses agents de socialisation.",
+     qsub:"Plusieurs réponses sont correctes.",
+     options:["Sa famille","L'école","Son club de basket","Son groupe d'amis","Les médias et les réseaux sociaux","L'équipe de la pharmacie où elle a fait son stage","Le respect des autres","Le règlement du club de basket"],
+     multi:[0,1,2,3,4,5],
+     hint:"Deux propositions ne sont pas des groupes de personnes. L'une est un idéal, l'autre est une règle écrite.",
+     exp:"Un agent de socialisation est toujours un groupe : famille, école, club, amis, médias, milieu professionnel. « Le respect » est une valeur et « le règlement du club » est une norme : ce sont des contenus transmis, pas des agents."},
+    {type:"qcm", q:"Chez un tout jeune enfant, quel est l'agent de socialisation le plus important ?",
+     options:["La famille","Le groupe de copains","Le milieu professionnel","Le club de sport"],
+     correct:0,
+     exp:"Avant même de savoir parler, l'enfant apprend tout de son entourage familial : c'est la première socialisation, et c'est la plus profonde."},
+    {type:"classer", pts:20, q:"À quel moment de la vie ces agents apparaissent-ils ?", qsub:"Clique une étiquette, puis la colonne correspondante.",
+     bins:[{name:"Dès l'enfance",cap:"Les tout premiers"},{name:"S'ajoutent à l'adolescence",cap:"Vers 12-18 ans"},{name:"S'ajoutent à l'âge adulte",cap:"Après les études"}],
+     items:[
+       {t:"La famille",b:0},{t:"La crèche puis l'école",b:0},{t:"La télévision et les écrans",b:0},
+       {t:"Le groupe de copains",b:1},{t:"Le club de sport, la troupe de théâtre",b:1},
+       {t:"Les collègues de travail",b:2},{t:"Les autres parents à la sortie de l'école",b:2}
+     ],
+     hint:"Demande-toi à quel âge une personne rencontre ce groupe pour la première fois.",
+     exp:"L'ordre est logique : famille, crèche et écrans dans l'enfance ; copains et groupes d'activités à l'adolescence ; collègues et nouveaux rôles (parent, voisin) à l'âge adulte."},
+    {type:"qcm", norot:true, q:"Vrai ou faux : « La socialisation s'arrête à la fin de l'adolescence. »",
+     options:["Vrai","Faux"], correct:1,
+     hint:"Pense à quelqu'un qui change de métier à 45 ans, ou qui devient parent pour la première fois.",
+     exp:"Faux. La socialisation dure toute la vie : chaque nouveau groupe (entreprise, quartier, association, maison de repos) impose ses propres normes qu'il faut apprendre."},
+    {type:"qcm", q:"Lis la situation ci-dessous. Que se passe-t-il ?",
+     sit:"<b>Chez Camille</b>, tout le monde se tutoie, même les adultes qui viennent à la maison : c'est convivial, et ses parents trouvent ça chaleureux.<br><br><b>Premier jour de stage à la pharmacie.</b> Camille accueille une cliente de 70 ans : « Salut, tu cherches quoi ? ». La cliente fronce les sourcils. Une collègue lève les yeux au ciel. En fin de journée, la responsable lui glisse un mot à l'oreille.",
+     options:["Un conflit de normes : la règle de la famille n'est pas celle du travail","Camille est mal élevée : sa famille ne lui a rien appris","Camille a enfreint une loi belge sur le commerce","Il n'y a aucun problème : elle a été polie"],
+     correct:0, hint:"Camille a très bien appliqué une règle. Le problème, c'est l'endroit où elle l'a appliquée.",
+     exp:"Camille applique correctement la norme de sa famille, mais elle se trouve dans un autre groupe qui a une norme opposée. Chaque agent de socialisation transmet ses propres règles, et elles peuvent se contredire."},
+    {type:"qcm", q:"Les sourcils froncés, les yeux levés au ciel et la remarque discrète de la responsable sont…",
+     options:["Des sanctions non explicites (informelles)","Des sanctions explicites prévues par un règlement","Des valeurs professionnelles","Des agents de socialisation"],
+     correct:0,
+     exp:"Aucune de ces réactions n'était écrite ni prévue à l'avance : ce sont des sanctions informelles. Elles suffisent pourtant à faire comprendre à Camille qu'elle a franchi une limite."},
+    {type:"qcm", q:"Quel nouvel agent de socialisation Camille est-elle en train de découvrir ?",
+     options:["Le milieu professionnel","La famille","Les médias","Le groupe de copains"],
+     correct:0,
+     exp:"Le stage la fait entrer dans un nouveau groupe, avec ses codes propres. C'est le début de la socialisation professionnelle, qui continuera toute sa carrière."}
+  ]
+},
+
+/* ============ NIVEAU 4 ============ */
+{
+  icon:"🧩", title:"Construis le grand tableau", sub:"Formelles / informelles, cellule par cellule",
+  goal:"Ce tableau est vide. À toi de le remplir : chaque bonne réponse fait apparaître une case. À la fin, tu obtiens la fiche complète à retenir.",
+  widget:"table",
+  questions:[
+    {type:"qcm", correct:0, cell:"f1", cellText:"ÉCRITE (loi, règlement)", q:"Une norme <b>formelle</b>, est-elle écrite ou non écrite ?",
+     options:["Écrite","Non écrite"],
+     exp:"« Formelle » signifie « mise en forme dans un texte » : loi, règlement d'ordre intérieur, contrat, règlement sportif."},
+    {type:"qcm", correct:0, cell:"f2", cellText:"EXPLICITE (annoncée d'avance)", q:"Quand une norme formelle est enfreinte, la sanction est…",
+     options:["Explicite : elle est prévue et connue de tous à l'avance","Implicite : elle dépend de l'humeur des gens présents","Inexistante : personne ne réagit"],
+     exp:"Comme la règle est écrite, la punition l'est aussi. Tu peux la lire avant même d'avoir fauté : c'est une sanction explicite."},
+    {type:"qcm", correct:0, cell:"f3", cellText:"Une AUTORITÉ officielle", q:"Qui prononce la sanction d'une norme formelle ?",
+     options:["Une autorité officielle : police, tribunal, direction, fédération","Les personnes présentes autour de toi","Le fautif lui-même"],
+     exp:"Une norme écrite est protégée par une autorité désignée. Retiens ce mot : autorité. Il reviendra dans le schéma final."},
+    {type:"qcm", correct:0, cell:"f4", cellText:"Limitation de vitesse", q:"Lequel de ces exemples est une norme formelle ?",
+     options:["La limitation de vitesse inscrite dans le code de la route","Souhaiter « bon appétit » avant de manger","Laisser sortir les gens avant d'entrer dans le tram"],
+     exp:"Le code de la route est un texte officiel : la limitation de vitesse est donc une norme formelle. Les deux autres situations relèvent de l'usage."},
+    {type:"qcm", correct:0, cell:"i1", cellText:"NON ÉCRITE (usage, coutume)", q:"Une norme <b>informelle</b>, est-elle écrite ou non écrite ?",
+     options:["Non écrite","Écrite"],
+     exp:"Elle se transmet par imitation et par habitude, jamais par un document."},
+    {type:"qcm", correct:0, cell:"i2", cellText:"NON EXPLICITE (implicite)", q:"Quand une norme informelle est enfreinte, la sanction est…",
+     options:["Non explicite : rien n'était prévu à l'avance","Explicite : elle figure dans un texte","Toujours une amende"],
+     exp:"Personne n'a écrit ce qui arriverait. La punition prend la forme d'un regard, d'un rire, d'une remarque ou d'une mise à l'écart : elle est implicite."},
+    {type:"qcm", correct:0, cell:"i3", cellText:"L'ENTOURAGE", q:"Qui prononce la sanction d'une norme informelle ?",
+     options:["L'entourage : les gens présents","Un juge","Le ministre de l'Intérieur"],
+     exp:"Il n'y a pas d'autorité désignée : c'est le groupe présent qui réagit. Retiens ce mot : entourage. Lui aussi reviendra dans le schéma final."},
+    {type:"qcm", correct:0, cell:"i4", cellText:"Frapper avant d'entrer", q:"Lequel de ces exemples est une norme informelle ?",
+     options:["Frapper à la porte avant d'entrer dans un bureau","Payer ses impôts","Porter la ceinture de sécurité en voiture"],
+     exp:"Frapper avant d'entrer n'est écrit nulle part, et pourtant entrer sans frapper choque tout le monde. Les deux autres exemples sont imposés par la loi."}
+  ]
+},
+
+/* ============ NIVEAU 5 ============ */
+{
+  icon:"💎", title:"Les valeurs", sub:"Ce qui nous fait agir",
+  goal:"Distinguer une valeur d'une norme, et repérer la valeur qui se cache derrière un comportement.",
+  theory:`<h3>Ce qu'il faut savoir avant de commencer</h3>
+    <p>Une <b>valeur</b> est un <b>idéal</b> : quelque chose que l'on considère comme important et digne d'estime. Ce n'est pas une règle, c'est une raison d'agir.</p>
+    <ul>
+      <li>La <b>valeur</b> répond à la question <b>pourquoi ?</b></li>
+      <li>La <b>norme</b> répond à la question <b>comment ?</b></li>
+    </ul>
+    <p>Une valeur ne se transgresse pas : on la défend, ou on l'abandonne. Une norme, elle, se respecte ou se transgresse.</p>
+    <p class="ex">Exemple : parce qu'un groupe d'amis défend la <b>solidarité</b> (valeur), il a pris l'habitude de partager l'addition quand l'un d'eux a oublié son portefeuille (norme).</p>`,
+  questions:[
+    {type:"qcm", q:"« L'honnêteté ». De quoi s'agit-il ?",
+     options:["D'une valeur","D'une norme","D'une sanction","D'un agent de socialisation"],
+     correct:0,
+     exp:"L'honnêteté est un idéal : elle ne dit pas quoi faire précisément, elle donne une direction."},
+    {type:"qcm", q:"« Ne pas copier sur son voisin pendant un contrôle ». De quoi s'agit-il ?",
+     options:["D'une norme","D'une valeur","D'une sanction","D'un agent de socialisation"],
+     correct:0, hint:"Cette phrase te dit précisément quel comportement adopter dans une situation précise.",
+     exp:"C'est une règle de conduite concrète, donc une norme. Elle découle d'une valeur : l'honnêteté."},
+    {type:"qcm", q:"Sofia prend systématiquement la défense d'un élève dont les autres se moquent, même quand cela lui coûte des amis. Quelle valeur défend-elle ?",
+     options:["Le respect des autres","La réussite","La perfection","Le changement"],
+     correct:0,
+     exp:"Son comportement est constant et lui coûte quelque chose : c'est le signe d'une valeur forte. Ici, le respect et la considération envers les autres."},
+    {type:"echelle", pts:10, q:"Ton échelle des valeurs",
+     qsub:"Choisis les <b>3 valeurs</b> les plus importantes à tes yeux. Il n'y a pas de mauvaise réponse : cette question sert à te faire réfléchir.",
+     values:[
+       {t:"Le respect",d:"la politesse, la considération envers les autres"},
+       {t:"La famille",d:"la maison, au sens strict ou plus large"},
+       {t:"La justice",d:"l'égalité des chances pour tous"},
+       {t:"La réussite",d:"le prestige, le pouvoir, l'argent, l'honneur"},
+       {t:"La liberté",d:"l'indépendance et le libre choix"},
+       {t:"Le changement",d:"la nouveauté, la prise de risque, les projets"},
+       {t:"L'honnêteté",d:"être digne de confiance, franc, sincère"},
+       {t:"La perfection",d:"le travail bien fait, la propreté"},
+       {t:"La paix",d:"l'ordre, la sécurité, l'absence de conflit"},
+       {t:"La communication",d:"être en groupe, avoir des contacts, des échanges"}
+     ],
+     exp:"Ton classement n'est pas celui de ton voisin, et c'est normal : chacun a sa propre échelle des valeurs. Maintenant, essaie de repérer un comportement que tu as posé cette semaine et qui découle de ta première valeur. C'est exactement le raisonnement que le cours te demande."},
+    {type:"qcm", q:"Deux élèves de la même classe classent les mêmes valeurs dans un ordre complètement différent. Que peut-on en conclure ?",
+     options:["Chaque personne construit sa propre échelle des valeurs","L'un des deux s'est trompé","Ils n'ont pas eu les mêmes agents de socialisation, c'est donc impossible","Les valeurs n'existent pas vraiment"],
+     correct:0,
+     exp:"Les valeurs sont partagées par une société, mais chacun les hiérarchise à sa manière, en fonction de son histoire et de ses agents de socialisation."},
+    {type:"qcm", q:"Depuis un an, Lucas trie ses déchets, va à l'école à vélo par tous les temps et achète ses vêtements en seconde main. Quelle valeur guide ces comportements ?",
+     options:["Le respect de l'environnement","La réussite sociale","La perfection du travail","La communication"],
+     correct:0, hint:"Ne regarde pas chaque comportement séparément : cherche le point commun entre les trois.",
+     exp:"Trois comportements différents, une seule direction. C'est ainsi qu'on repère une valeur : elle explique plusieurs actes à la fois."},
+    {type:"bank", layout:"pairs", pts:20, q:"Quelle valeur se cache derrière chaque comportement ?",
+     qsub:"Clique une valeur dans la réserve, puis l'emplacement qui lui correspond.",
+     slots:[
+       {lbl:"Elle prévient toujours quand elle sera en retard", ans:"Le respect"},
+       {lbl:"Il révise chaque soir pour décrocher son diplôme", ans:"La réussite"},
+       {lbl:"Elle range et nettoie l'atelier avant de partir", ans:"La perfection"},
+       {lbl:"Il raconte ce qui s'est passé, même quand cela le met en tort", ans:"L'honnêteté"}
+     ],
+     bank:["Le respect","La réussite","La perfection","L'honnêteté"],
+     hint:"Pour chaque phrase, demande-toi : « qu'est-ce que cette personne considère comme le plus important au moment où elle agit ? »",
+     exp:"Un comportement n'est jamais gratuit : il traduit toujours un idéal. Prévenir de son retard, c'est du respect ; nettoyer son poste, c'est le goût du travail bien fait."}
+  ]
+},
+
+/* ============ NIVEAU 6 ============ */
+{
+  icon:"🔗", title:"Des valeurs aux normes", sub:"Le lien qui explique tout",
+  goal:"Comprendre que les normes découlent des valeurs, et savoir remonter d'une norme transgressée jusqu'à la valeur qu'elle protégeait.",
+  theory:`<h3>Ce qu'il faut savoir avant de commencer</h3>
+    <p>Les normes ne tombent pas du ciel : une société <b>fabrique</b> ses règles à partir de ce qu'elle juge important.</p>
+    <p><b>Valeur → norme.</b> La valeur est la fondation ; la norme est l'instruction concrète construite dessus.</p>
+    <p class="ex">Exemple : parce qu'une société tient à la <b>sécurité</b> (valeur), elle impose le port de la ceinture en voiture (norme).</p>
+    <p>Ce lien fonctionne aussi <b>à l'envers</b>, et c'est très utile pour ton analyse : quand tu vois une règle transgressée, demande-toi quel idéal cette règle protégeait. Tu tiens la valeur.</p>`,
+  questions:[
+    {type:"qcm", q:"Une école place l'<b>égalité entre les élèves</b> au cœur de son projet. Quelle règle a le plus de chances d'y exister ?",
+     options:["Tous les élèves portent le même tablier","Les meilleurs élèves choisissent leur place en classe","Les bulletins sont affichés dans le couloir","Chacun s'habille comme il veut, sans limite"],
+     correct:0, hint:"Cherche la règle qui empêche les différences entre élèves de devenir visibles.",
+     exp:"Le tablier identique efface les différences de moyens entre familles : la norme est construite pour faire vivre la valeur d'égalité."},
+    {type:"qcm", q:"Pendant un match, un joueur pousse volontairement un adversaire déjà à terre. Quelle valeur est bafouée ?",
+     options:["Le respect de l'intégrité physique d'autrui","La réussite sportive","La liberté d'expression","La communication"],
+     correct:0,
+     exp:"La règle « on ne frappe pas un adversaire » existe parce qu'on estime que le corps d'autrui doit être protégé. C'est cette valeur qui est attaquée."},
+    {type:"bank", layout:"pairs", pts:20, q:"Relie chaque valeur à la norme qui en découle.",
+     qsub:"Clique une norme dans la réserve, puis l'emplacement de la valeur correspondante.",
+     slots:[
+       {lbl:"L'honnêteté", ans:"Déclarer tous ses revenus au fisc"},
+       {lbl:"La solidarité", ans:"Payer des cotisations sociales pour financer les soins de tous"},
+       {lbl:"Le respect de la vie privée", ans:"Demander l'autorisation avant de publier la photo de quelqu'un"},
+       {lbl:"Le respect de l'interlocuteur", ans:"Ne pas couper la parole"}
+     ],
+     bank:["Déclarer tous ses revenus au fisc","Payer des cotisations sociales pour financer les soins de tous","Demander l'autorisation avant de publier la photo de quelqu'un","Ne pas couper la parole"],
+     hint:"Lis chaque norme et demande-toi : « à quoi cette règle sert-elle ? qu'est-ce qu'elle protège ? »",
+     exp:"Chaque règle est la traduction pratique d'un idéal. Les cotisations sociales sont un bel exemple : je paie aujourd'hui pour soigner quelqu'un que je ne connais pas. Sans la valeur de solidarité, cette norme n'aurait aucun sens."},
+    {type:"qcm", q:"Dans certains pays, on se déchausse pour entrer chez quelqu'un ; ailleurs, on garde ses chaussures mais on essuie soigneusement ses semelles. Les deux groupes tiennent pourtant à la propreté du logement. Que montre cet exemple ?",
+     options:["Une même valeur peut produire des normes différentes selon les cultures","Une seule des deux cultures respecte vraiment la propreté","La propreté n'est pas une valeur","Les normes n'ont aucun lien avec les valeurs"],
+     correct:0,
+     exp:"La valeur est partagée, la mise en pratique diffère. C'est pourquoi il ne faut jamais juger une norme étrangère sans chercher la valeur qu'elle sert."},
+    {type:"qcm", norot:true, q:"Vrai ou faux : « Une valeur peut être transgressée, exactement comme une norme. »",
+     options:["Vrai","Faux"], correct:1, hint:"Peux-tu être puni pour « ne pas croire assez fort à la liberté » ?",
+     exp:"Faux. On transgresse une règle, pas un idéal. Une valeur, on la défend, on la relègue ou on l'abandonne, mais elle ne se « brise » pas et elle n'entraîne pas de sanction directe."},
+    {type:"bank", layout:"ordre", pts:20, q:"Remets la chaîne dans le bon ordre.",
+     qsub:"Clique un élément dans la réserve, puis l'emplacement où il doit aller.",
+     slots:[
+       {lbl:"1 — Au départ, un idéal", ans:"La sécurité des enfants"},
+       {lbl:"2 — On en tire une règle", ans:"On ne dépasse pas 30 km/h devant l'école"},
+       {lbl:"3 — Quelqu'un ne la respecte pas", ans:"Marc traverse la zone à 60 km/h"},
+       {lbl:"4 — Le groupe réagit", ans:"Amende de 200 € et retrait de points"}
+     ],
+     bank:["La sécurité des enfants","On ne dépasse pas 30 km/h devant l'école","Marc traverse la zone à 60 km/h","Amende de 200 € et retrait de points"],
+     hint:"Commence par la fin : l'amende punit quoi ? Cette règle protège quoi ?",
+     exp:"Retiens cette chaîne par cœur, elle est la colonne vertébrale de toute analyse sociologique : VALEUR → NORME → TRANSGRESSION → SANCTION."},
+    {type:"qcm", q:"Pourquoi dit-on que les normes sont « dérivées » des valeurs ?",
+     options:["Parce que la norme est la mise en pratique concrète d'une valeur","Parce que les valeurs sont écrites dans les règlements","Parce qu'une norme finit toujours par devenir une valeur","Parce que les deux mots veulent dire la même chose"],
+     correct:0,
+     exp:"La valeur est la fondation, la norme est l'instruction de montage. Sans valeur derrière elle, une règle paraît absurde et personne ne la respecte longtemps."}
+  ]
+},
+
+/* ============ NIVEAU 7 ============ */
+{
+  icon:"🗺️", title:"La carte du cours", sub:"Synthèse et schéma à retenir",
+  goal:"Rassembler tout ce que tu as appris dans un seul schéma, celui que tu dois être capable de refaire de mémoire.",
+  synth:true,
+  questions:[
+    {type:"bank", layout:"schema", pts:40, q:"Complète le schéma du cours.",
+     qsub:"Clique un mot dans la réserve, puis l'emplacement où il doit aller. Attention : deux mots de la réserve ne servent à rien.",
+     slots:[
+       {ans:"VALEURS", why:"Tout part de là : ce sont les idéaux d'un groupe."},
+       {ans:"NORMES", why:"Ce que les valeurs produisent : des règles de conduite."},
+       {ans:"EXPLICITES", why:"Ces normes-là sont officialisées, mises noir sur blanc."},
+       {ans:"LOIS", why:"La forme la plus officielle d'une norme explicite."},
+       {ans:"IMPLICITES", why:"Ces normes-là ne sont pas officialisées, mais tout le monde les accepte."},
+       {ans:"COUTUMES", why:"Le nom que porte une norme implicite : elle concerne les mœurs et les usages."},
+       {ans:"JURIDIQUE", why:"La sanction organisée par une autorité publique porte ce nom."},
+       {ans:"MORALE ou SOCIALE", why:"La sanction diffuse, prononcée par l'entourage, porte ce nom."}
+     ],
+     bank:["VALEURS","NORMES","EXPLICITES","LOIS","IMPLICITES","COUTUMES","JURIDIQUE","MORALE ou SOCIALE","SOCIALISATION","DÉVIANCE"],
+     hint:"Repère d'abord les deux grands blocs du haut : lequel produit l'autre ? Ensuite, une seule question pour la partie basse : est-ce officialisé ou pas ?",
+     exp:"Ce schéma résume tout le cours en une image. Lis-le de haut en bas : les VALEURS produisent les NORMES ; les normes sont soit explicites (les LOIS), soit implicites (les COUTUMES) ; et selon le cas, le non-respect entraîne une sanction JURIDIQUE, organisée par l'autorité publique, ou une sanction MORALE ou SOCIALE, diffuse, prononcée par l'entourage."},
+    {type:"qcm", q:"Ton voisin de table mange bruyamment la bouche ouverte. Toute la tablée le regarde de travers. Dans le schéma, où te situes-tu ?",
+     options:["Norme implicite (coutume) → sanction morale ou sociale","Norme explicite (loi) → sanction juridique","Norme explicite (loi) → sanction morale","Il n'y a ni norme ni sanction"],
+     correct:0,
+     exp:"Aucun texte n'interdit de manger bruyamment : la norme est implicite. Et personne n'a d'autorité officielle pour punir : la sanction est diffuse, prononcée par l'entourage."},
+    {type:"qcm", q:"Qui organise une sanction juridique ?",
+     options:["L'autorité publique","L'entourage","La personne fautive","Les médias"],
+     correct:0,
+     exp:"C'est la différence essentielle avec la sanction morale : la sanction juridique est organisée, prévue par un texte et prononcée par une autorité désignée."},
+    {type:"qcm", q:"Dans quel sens faut-il lire la flèche entre valeurs et normes ?",
+     options:["Les valeurs produisent les normes","Les normes produisent les valeurs","Les deux se produisent mutuellement, sans ordre","Il n'y a pas de lien entre les deux"],
+     correct:0, hint:"Laquelle des deux est la fondation, et laquelle est construite dessus ?",
+     exp:"Les valeurs sont premières : ce sont elles qui justifient l'existence des règles. Quand une valeur disparaît d'une société, la norme correspondante finit par tomber en désuétude."}
+  ]
+},
+
+/* ============ NIVEAU 8 ============ */
+{
+  icon:"⚖️", title:"Franchir la ligne", sub:"Déviance, délinquance et sanctions",
+  goal:"Nommer correctement une transgression et reconnaître le type de sanction qu'elle entraîne.",
+  theory:`<h3>Ce qu'il faut savoir avant de commencer</h3>
+    <p>La <b>transgression</b> consiste à ne pas respecter une norme. Elle a trois causes possibles : la règle (et donc la punition) n'est pas connue ; la punition paraît trop légère ou trop improbable ; la règle est jugée injuste et on décide de la combattre.</p>
+    <ul>
+      <li>Transgresser une norme <b>informelle</b> = la <b>déviance</b>.</li>
+      <li>Transgresser une norme <b>formelle</b> = la <b>délinquance</b>, punissable par la loi.</li>
+    </ul>
+    <p>La <b>sanction</b> fait respecter la norme. Elle est <b>positive</b> quand elle récompense et donne envie de recommencer, <b>négative</b> quand elle dissuade de recommencer. Et elle devient <b>formelle</b> dès qu'elle est écrite.</p>
+    <p class="ex">Exemples : cracher par terre devant un magasin choque, mais ne conduit pas au tribunal (déviance). Voler un vélo est puni par la loi (délinquance). Une prime de fin d'année versée par un employeur récompense le travail fourni (sanction positive).</p>`,
+  questions:[
+    {type:"qcm", q:"Élodie garde ses écouteurs sur les oreilles pendant que sa grand-mère lui parle. De quoi s'agit-il ?",
+     options:["D'une déviance","D'une délinquance","D'une valeur","D'une sanction positive"],
+     correct:0,
+     exp:"Aucun texte n'oblige à retirer ses écouteurs : la norme est informelle. Sa transgression s'appelle donc la déviance."},
+    {type:"qcm", q:"Un automobiliste grille délibérément un feu rouge. De quoi s'agit-il ?",
+     options:["D'une délinquance","D'une déviance","D'une norme informelle","D'une sanction négative"],
+     correct:0,
+     exp:"Le feu rouge est imposé par le code de la route, un texte officiel. Transgresser une norme formelle, c'est de la délinquance : c'est punissable par la loi."},
+    {type:"classer", pts:20, q:"Déviance ou délinquance ?", qsub:"Clique une étiquette, puis la colonne correspondante.",
+     bins:[{name:"DÉVIANCE",cap:"Norme informelle transgressée"},{name:"DÉLINQUANCE",cap:"Norme formelle transgressée"}],
+     items:[
+       {t:"Passer devant tout le monde dans la file du réfectoire",b:0},
+       {t:"Télécharger illégalement un film récent",b:1},
+       {t:"Arriver en jogging à un enterrement",b:0},
+       {t:"Vendre de l'alcool fort à un jeune de 15 ans",b:1},
+       {t:"Parler la bouche pleine à table",b:0},
+       {t:"Travailler au noir, sans déclarer ses heures",b:1}
+     ],
+     hint:"Pour chaque étiquette : la règle enfreinte est-elle écrite dans un texte officiel ? Si oui, on quitte la déviance pour la délinquance.",
+     exp:"Le critère est toujours le même : la nature de la norme transgressée. Informelle → déviance (le groupe réagit). Formelle → délinquance (une autorité sanctionne, et la loi peut s'appliquer)."},
+    {type:"qcm", q:"En fin d'année, le conseil de classe félicite officiellement un élève pour ses progrès. Cette sanction est…",
+     options:["Positive : elle renforce le comportement","Négative : elle dissuade le comportement","Une déviance","Une norme informelle"],
+     correct:0, hint:"Une sanction n'est pas forcément une punition. Demande-toi si l'élève aura envie de recommencer.",
+     exp:"En sociologie, « sanction » ne veut pas dire « punition ». Une sanction positive récompense et donne envie de reproduire le comportement."},
+    {type:"qcm", q:"Deux heures de retenue le mercredi après-midi. Cette sanction est…",
+     options:["Négative : elle vise à dissuader","Positive : elle encourage","Informelle : elle dépend du professeur","Inexistante : ce n'est pas une vraie sanction"],
+     correct:0,
+     exp:"Elle rend la transgression désagréable pour éviter qu'elle se répète : c'est une sanction négative. Comme elle est prévue par le règlement d'ordre intérieur, elle est en plus formelle."},
+    {type:"qcm", q:"Le règlement d'un club de sport prévoit noir sur blanc une amende de 5 € pour tout retard à l'entraînement. Cette sanction est…",
+     options:["Formelle et négative","Informelle et négative","Formelle et positive","Informelle et positive"],
+     correct:0, hint:"Deux questions à te poser séparément : est-ce écrit ? et est-ce que ça donne envie de recommencer ?",
+     exp:"Elle est écrite dans un règlement, donc formelle ; et elle cherche à décourager les retards, donc négative. Les deux caractéristiques se cumulent toujours."},
+    {type:"qcm", q:"« De toute façon, personne ne se fait jamais contrôler pour ça », dit un jeune qui traverse hors du passage pour piétons. Quelle cause de transgression reconnais-tu ?",
+     options:["La sanction est jugée trop improbable pour être dissuasive","La norme n'est pas connue","La norme est jugée injuste et il se rebelle","Il n'existe aucune norme dans cette situation"],
+     correct:0,
+     exp:"Il connaît parfaitement la règle : c'est le risque d'être puni qu'il estime nul. Une sanction qui ne tombe jamais ne fait plus respecter la norme."},
+    {type:"qcm", q:"Un groupe manifeste publiquement contre une règle qu'il juge injuste et refuse de l'appliquer. Quelle cause de transgression reconnais-tu ?",
+     options:["La norme est jugée comme une norme à combattre","La norme n'est pas connue","La sanction est trop légère","Ce n'est pas une transgression"],
+     correct:0,
+     exp:"C'est la rébellion : la règle est parfaitement connue, mais contestée dans son principe même. Beaucoup de normes ont changé à la suite de transgressions de ce type."}
+  ]
+},
+
+/* ============ NIVEAU 9 ============ */
+{
+  icon:"🔍", title:"L'analyse complète", sub:"Retour sur l'histoire d'Enzo",
+  goal:"Appliquer la méthode en 4 étapes au cas d'Enzo : agents de socialisation, norme, valeur, sanction.",
+  articleFold:true,
+  theory:`<h3>La méthode à appliquer</h3>
+    <ul>
+      <li><b>1. Les agents de socialisation</b> — qui a appris à vivre en société au personnage ? Cite-les tous, depuis sa petite enfance.</li>
+      <li><b>2. La norme</b> — quelle règle n'a pas été respectée ? Est-elle formelle ou informelle ?</li>
+      <li><b>3. La valeur</b> — quel idéal cette règle protégeait-elle ?</li>
+      <li><b>4. La sanction</b> — qu'a récolté le personnage ? Est-elle explicite ou non explicite ?</li>
+    </ul>`,
+  questions:[
+    {type:"multi", pts:20, q:"Étape 1. Quels sont les agents de socialisation d'Enzo ?",
+     qsub:"Cite-les tous, y compris ceux que le texte ne nomme pas mais que tout jeune de 17 ans a forcément rencontrés.",
+     options:["Ses parents et sa famille","L'école qu'il fréquente","Son groupe d'amis","Les réseaux sociaux","L'entreprise où il fait son stage","La convention de stage qu'il a signée","L'interruption de son stage","Le respect de la vie privée"],
+     multi:[0,1,2,3,4],
+     hint:"Trois propositions ne sont pas des groupes de personnes : cherche la règle, la punition et l'idéal qui se sont glissés dans la liste.",
+     exp:"Les agents sont toujours des groupes : la famille, l'école, les amis, les réseaux sociaux et, depuis six jours seulement, l'entreprise. La convention est une norme, l'interruption du stage est une sanction et le respect de la vie privée est une valeur. Aucun des trois n'est un agent."},
+    {type:"qcm", q:"Étape 2. Quelle norme Enzo a-t-il transgressée ?",
+     options:["L'interdiction de filmer dans l'entreprise sans autorisation","L'interdiction d'utiliser son GSM pendant les heures de travail","L'obligation de porter secours à un collègue en difficulté","L'interdiction de parler de son stage sur les réseaux sociaux"],
+     correct:0, hint:"Le texte cite un document précis, signé en septembre. Que dit-il exactement ?",
+     exp:"La convention de stage interdit toute prise d'image sans autorisation, et le règlement de travail le rappelle. C'est cette règle-là qui a été enfreinte, pas une règle sur le téléphone en général."},
+    {type:"qcm", q:"Étape 2 (suite). Cette norme est-elle formelle ou informelle ?",
+     options:["Formelle : elle est écrite dans la convention et rappelée par le règlement de travail","Informelle : c'est une simple question de savoir-vivre entre collègues","Formelle : elle figure dans le Code pénal belge","Informelle : chaque entreprise décide de ce qu'elle tolère"],
+     correct:0, hint:"Applique le seul critère qui compte : peux-tu montrer un document où cette règle est écrite ?",
+     exp:"Elle est écrite et signée, donc formelle. Attention à la nuance : une convention de stage n'est pas une loi, et pourtant elle suffit à rendre la norme formelle. Enzo a d'ailleurs transgressé en même temps une norme informelle : on ne se moque pas de quelqu'un qui vient de se faire mal."},
+    {type:"qcm", q:"Étape 3. Au nom de quelle valeur cette règle existe-t-elle ?",
+     options:["Le respect de la personne et de sa vie privée","La productivité de l'entreprise","La liberté d'expression des stagiaires","Le goût du travail bien fait"],
+     correct:0,
+     exp:"Filmer quelqu'un sans son accord, c'est disposer de son image sans lui demander son avis. La règle protège la dignité et la vie privée de chacun sur son lieu de travail."},
+    {type:"qcm", q:"Étape 3 (suite). Et quelle valeur a poussé Enzo à filmer, puis à publier ?",
+     options:["Faire rire et exister dans son groupe : la reconnaissance des autres","Le respect de la vie privée","L'honnêteté","La sécurité au travail"],
+     correct:0, hint:"Trois émojis qui rient, quarante vues. Qu'est-ce qu'il cherchait à ce moment précis ?",
+     exp:"C'est le point le plus subtil de l'analyse : deux valeurs s'affrontent chez la même personne. Le besoin d'être reconnu par son groupe l'a emporté sur le respect d'un collègue. Un individu défend toujours plusieurs valeurs, qui peuvent entrer en conflit."},
+    {type:"qcm", q:"Étape 4. Quelle sanction formelle Enzo a-t-il reçue ?",
+     options:["L'interruption de son stage et l'envoi d'un rapport à l'école","Une amende versée à l'entreprise","Un avertissement verbal sans aucune suite","La suppression de son compte sur les réseaux sociaux"],
+     correct:0,
+     exp:"Deux décisions officielles se suivent : l'entreprise met fin au stage, puis transmet un rapport à l'école, qui pourra sanctionner à son tour."},
+    {type:"qcm", q:"Étape 4 (suite). Cette sanction est-elle explicite ou non explicite ?",
+     options:["Explicite : la convention annonçait par écrit ce qui était interdit","Non explicite : le responsable a décidé sur le moment","Explicite : elle a été prononcée par un tribunal","Non explicite : l'école n'avait rien prévu"],
+     correct:0,
+     exp:"Enzo avait signé le document en septembre : il pouvait connaître la règle et le risque avant de sortir son téléphone. Une sanction annoncée d'avance par un texte est explicite."},
+    {type:"qcm", q:"Le magasinier qui ne lui adresse plus la parole et les collègues qui mangent ailleurs : de quel type de sanction s'agit-il ?",
+     options:["D'une sanction non explicite, diffuse, prononcée par l'entourage","D'une sanction explicite prévue par le règlement de travail","D'une sanction juridique prononcée par une autorité publique","Ce n'est pas une sanction : personne n'a rien dit"],
+     correct:0, hint:"Une punition a-t-elle besoin de mots ou d'un texte pour être ressentie ?",
+     exp:"Le silence est une sanction, et souvent l'une des plus dures. Rien n'était écrit, aucune autorité ne l'a prononcée : elle est non explicite, morale et sociale. Un même acte peut donc déclencher les deux types de sanctions en même temps."},
+    {type:"qcm", q:"Qui était chargé de faire respecter la norme écrite qu'Enzo a transgressée ?",
+     options:["Le responsable de l'entreprise, puis l'école","Ses collègues de l'atelier","Les personnes qui ont vu la story","Le magasinier filmé"],
+     correct:0,
+     exp:"Une norme formelle est toujours protégée par une autorité désignée. Ici, l'entreprise et l'école ; sur la route, la police ; dans un sport, la fédération. C'est ce qui la distingue d'une norme informelle, dont personne n'est officiellement responsable."}
+  ]
+}
+];
+
+/* =========================================================
+   ÉTAT DE L'APPLICATION
+   ========================================================= */
+const TOTAL = LEVELS.length;
+
+/* Rotation déterministe des propositions (règle 3.7) */
+const DECALAGE=[2,0,3,1,1,3,0,2,3,1,2,0,0,2,1,3,2,3,0,1];
+(function melangerPropositions(){
+  let k=0;
+  LEVELS.forEach(lv=>lv.questions.forEach(q=>{
+    if(q.type!=='qcm'||q.norot||!q.options) return;
+    const t=DECALAGE[k++%DECALAGE.length];
+    for(let n=0;n<t;n++){ q.options.unshift(q.options.pop()); q.correct=(q.correct+1)%q.options.length; }
+  }));
+})();
+
+/* Brassage déterministe des listes : ni les propositions d'un choix multiple,
+   ni les étiquettes à trier, ni les mots de la réserve ne peuvent apparaître
+   dans l'ordre des réponses attendues. Stable d'un chargement à l'autre. */
+function rngDet(seed){ let s=(seed*2654435761)>>>0; return function(){ s=(s*1664525+1013904223)>>>0; return s/4294967296; }; }
+function ordreBrasse(n,seed){
+  const r=rngDet(seed), idx=Array.from({length:n},(_,i)=>i);
+  for(let i=n-1;i>0;i--){ const j=Math.floor(r()*(i+1)); const t=idx[i]; idx[i]=idx[j]; idx[j]=t; }
+  if(idx.every((v,i)=>v===i)) idx.push(idx.shift());   // jamais l'ordre d'origine
+  return idx;
+}
+(function brasserListes(){
+  LEVELS.forEach((lv,li)=>lv.questions.forEach((q,qi)=>{
+    const seed=(li+1)*977+(qi+1)*61+7;
+    if(q.type==='multi'){
+      const o=ordreBrasse(q.options.length,seed);
+      q.options=o.map(i=>q.options[i]);
+      q.multi=q.multi.map(i=>o.indexOf(i)).sort((a,b)=>a-b);
+    } else if(q.type==='classer'){
+      const o=ordreBrasse(q.items.length,seed);
+      q.items=o.map(i=>q.items[i]);
+    } else if(q.type==='bank'){
+      const o=ordreBrasse(q.bank.length,seed);
+      q.bank=o.map(i=>q.bank[i]);
+    }
+  }));
+})();
+
+const APP = {
+  score:0, levelIdx:0, qIdx:0,
+  completed:new Set(), stats:{},
+  attempt:0, answered:false, sel:null, selSet:[], placed:{}, firstOk:0,
+  tableCells:{},
+  completedExercises:[],
+  email:localStorage.getItem('student_email')||'',
+  classe:localStorage.getItem('student_classe')||'',
+  exerciseStartTime:null, exerciseTimes:{}, exerciseScores:{}, scoreBeforeExercise:0,
+  globalTimerStart:null, globalTimerInterval:null
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  $(id).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function qPts(q){ return q.pts||10; }
+function levelMax(lv){ return lv.questions.reduce((a,q)=>a+qPts(q),0); }
+
+function refreshHeader(){
+  $('hScore').textContent = APP.score;
+  $('hLvl').textContent = APP.completed.size+'/'+TOTAL;
+  $('pFill').style.width = (APP.completed.size/TOTAL*100)+'%';
+}
+function refreshId(){
+  $('idBox').innerHTML = APP.email
+    ? '<div class="idcard">🎓 <span>Connecté : <b>'+esc(APP.email)+'</b>'+(APP.classe?' · '+esc(APP.classe):'')+'</span></div>'
+    : '';
+}
+
+/* =========================================================
+   HUB
+   ========================================================= */
+function goHub(){ renderHub(); show('screenHub'); }
+
+function renderHub(){
+  let h='';
+  LEVELS.forEach((lv,i)=>{
+    const done = APP.completed.has(i);
+    const st = APP.stats[i];
+    const pct = st? Math.round(st.pts/st.max*100):0;
+    const badge = done ? (pct>=85?'🏆':pct>=65?'🥇':pct>=45?'🥈':'🥉') : '';
+    h+='<button class="lvl'+(done?' done':'')+'" onclick="openLevel('+i+')">'
+      +'<span class="badge">'+badge+'</span>'
+      +'<span class="no">ÉTAPE '+(i+1)+'</span>'
+      +'<span class="ic">'+lv.icon+'</span>'
+      +'<h4>'+lv.title+'</h4><p>'+lv.sub+'</p>'
+      +'<div class="bar"><i style="width:'+(done?pct:0)+'%"></i></div>'
+      +'</button>';
+  });
+  $('hubGrid').innerHTML=h;
+  const fin=$('hubFinal');
+  if(fin) fin.innerHTML = APP.completed.size===TOTAL
+    ? '<div class="btn-row"><button class="btn btn-main" onclick="renderFinal()">🏁 Voir mon bilan final</button></div>' : '';
+  refreshHeader();
+}
+
+/* =========================================================
+   NIVEAU
+   ========================================================= */
+function openLevel(i){
+  APP.levelIdx=i; APP.qIdx=0; APP.tableCells={};
+  const deja=APP.completed.has(i);
+  if(deja && APP.stats[i]) APP.score-=APP.stats[i].pts;   // révision : on repart de zéro pour cette étape
+  APP.stats[i]={ok:0,retry:0,shown:0,pts:0,max:levelMax(LEVELS[i])};
+  if(!deja) startExerciseTimer(i);
+  refreshHeader();
+  renderLevelShell();
+  renderQuestion();
+  show('screenLevel');
+}
+
+function renderLevelShell(){
+  const lv=LEVELS[APP.levelIdx];
+  $('lvTitle').textContent = lv.icon+'  '+lv.title;
+  let intro='';
+  if(lv.goal) intro+='<div class="goal"><b>Objectif :</b> '+lv.goal+'</div>';
+  if(lv.article) intro+=ARTICLE;
+  if(lv.articleFold) intro+='<details class="article-fold"><summary>📱 Revoir l\'histoire d\'Enzo</summary>'+ARTICLE+'</details>';
+  if(lv.synth) intro+=SYNTHESE_HTML;
+  if(lv.theory) intro+='<div class="theory">'+lv.theory+'</div>';
+  $('lvIntro').innerHTML=intro;
+}
+
+const SYNTHESE_HTML=`
+<div class="theory"><h3>La synthèse du cours, en quatre cartes</h3>
+<p>Relis-les tranquillement : tu vas devoir t'en servir juste après.</p></div>
+<div class="memo">
+  <div class="mcard"><h4>🎓 La socialisation</h4><p>C'est l'apprentissage de la vie en société : on y apprend les <b>valeurs</b>, les <b>normes</b> et les <b>rôles sociaux</b>. Elle ne s'arrête jamais.</p></div>
+  <div class="mcard b"><h4>👥 Les agents</h4><p>Ce sont les <b>groupes sociaux</b> qui participent à cet apprentissage. Un agent est toujours un groupe de personnes.</p></div>
+  <div class="mcard g"><h4>📏 Les normes</h4><p>Les <b>règles de conduite</b> auxquelles les membres d'un groupe sont censés se conformer. Elles évoluent dans le temps et dans l'espace, et se dérivent des valeurs.</p></div>
+  <div class="mcard o"><h4>💎 Les valeurs</h4><p>Les <b>idéaux</b> auxquels les membres d'une société adhèrent, et qui se manifestent dans leurs manières de penser, de sentir et d'agir.</p></div>
+</div>
+<div class="timeline">
+  <div class="tl"><div class="age">DANS L'ENFANCE</div><ul><li>la famille</li><li>l'école, la crèche</li><li>les médias</li></ul></div>
+  <div class="tl"><div class="age">S'AJOUTENT À L'ADOLESCENCE</div><ul><li>les groupes de pairs (les copains)</li><li>les groupes d'activité (sport, musique, mouvement de jeunesse)</li></ul></div>
+  <div class="tl"><div class="age">S'AJOUTENT À L'ÂGE ADULTE</div><ul><li>les groupes professionnels</li></ul></div>
+</div>`;
+
+/* ---------- Tableau à construire (niveau 4) ---------- */
+const TCELLS=['f1','f2','f3','f4','i1','i2','i3','i4'];
+function tableHtml(){
+  const c = k => APP.tableCells[k]
+    ? '<td class="filled">'+APP.tableCells[k]+'</td>'
+    : '<td>?</td>';
+  return '<table class="tbuild"><tr><th class="rowh"></th><th>Écrite ?</th><th>Type de sanction</th><th>Qui sanctionne ?</th><th>Exemple</th></tr>'
+    +'<tr class="f"><th class="rowh">Normes FORMELLES</th>'+c('f1')+c('f2')+c('f3')+c('f4')+'</tr>'
+    +'<tr class="i"><th class="rowh">Normes INFORMELLES</th>'+c('i1')+c('i2')+c('i3')+c('i4')+'</tr>'
+    +'</table>';
+}
+
+/* =========================================================
+   RENDU DES QUESTIONS
+   ========================================================= */
+function renderQuestion(){
+  const lv=LEVELS[APP.levelIdx], q=lv.questions[APP.qIdx];
+  APP.attempt=0; APP.answered=false; APP.sel=null; APP.selSet=[]; APP.placed={}; APP.firstOk=0;
+  $('lvPill').textContent='Question '+(APP.qIdx+1)+' / '+lv.questions.length;
+
+  let h='';
+  if(lv.widget==='table') h+='<div id="tableWrap">'+tableHtml()+'</div>';
+  h+='<div class="qcard">';
+  h+='<div class="qnum">QUESTION '+(APP.qIdx+1)+' · '+qPts(q)+' pts</div>';
+  h+='<div class="qtext">'+q.q+'</div>';
+  if(q.qsub) h+='<div class="qsub">'+q.qsub+'</div>';
+  if(q.sit) h+='<div class="qsit">'+q.sit+'</div>';
+  h+='<div id="qBody">'+bodyHtml(q)+'</div>';
+  h+='<div id="fb"></div><div id="acts" class="actions"></div>';
+  h+='</div>';
+  $('lvBody').innerHTML=h;
+  postRender(q);
+}
+
+function bodyHtml(q){
+  switch(q.type){
+    case 'qcm': return '<div class="opts">'+q.options.map((o,i)=>
+      '<button class="opt" data-i="'+i+'" onclick="pickQcm('+i+')"><span class="mark"></span><span>'+o+'</span></button>').join('')+'</div>';
+    case 'multi': return '<div class="opts">'+q.options.map((o,i)=>
+      '<button class="opt" data-i="'+i+'" onclick="toggleMulti('+i+')"><span class="mark"></span><span>'+o+'</span></button>').join('')+'</div>';
+    case 'classer': return classerHtml(q);
+    case 'bank': return bankHtml(q);
+    case 'echelle': return echelleHtml(q);
+  }
+  return '';
+}
+function postRender(q){
+  if(q.type==='qcm') return;
+  let label='Vérifier ma réponse';
+  if(q.type==='echelle') label='Valider mes 3 valeurs';
+  $('acts').innerHTML='<button class="btn btn-main" id="checkBtn" onclick="checkComplex()">'+label+'</button>';
+}
+
+/* ---------- classer ---------- */
+function classerHtml(q){
+  let h='<div class="pool" id="pool">'+q.items.map((it,i)=>
+    '<button class="chip" id="chip'+i+'" onclick="pickChip('+i+')">'+it.t+'</button>').join('')+'</div>';
+  h+='<div class="bins">'+q.bins.map((b,bi)=>
+    '<div class="bin" id="bin'+bi+'" onclick="dropChip('+bi+')"><h5>'+b.name+'</h5><div class="cap">'+b.cap+'</div><div class="items" id="binItems'+bi+'"></div></div>').join('')+'</div>';
+  h+='<div class="hintline" id="clHint">Étiquettes restantes : <b id="poolLeft">'+q.items.length+'</b></div>';
+  return h;
+}
+let chipSel=null;
+function pickChip(i){
+  if(APP.answered) return;
+  const el=$('chip'+i);
+  if(chipSel===i){ chipSel=null; el.classList.remove('sel'); return; }
+  document.querySelectorAll('.chip.sel').forEach(c=>c.classList.remove('sel'));
+  chipSel=i; el.classList.add('sel');
+  if(APP.placed[i]!==undefined){ // ressortir
+    delete APP.placed[i];
+    $('pool').appendChild(el);
+    el.classList.remove('sel'); chipSel=null;
+    updatePoolCount();
+  }
+}
+function dropChip(bi){
+  if(APP.answered||chipSel===null) return;
+  const el=$('chip'+chipSel);
+  APP.placed[chipSel]=bi;
+  $('binItems'+bi).appendChild(el);
+  el.classList.remove('sel'); chipSel=null;
+  updatePoolCount();
+}
+function updatePoolCount(){
+  const q=LEVELS[APP.levelIdx].questions[APP.qIdx];
+  const left=q.items.length-Object.keys(APP.placed).length;
+  const el=$('poolLeft'); if(el) el.textContent=left;
+}
+
+/* ---------- bank (pairs / ordre / schema) ---------- */
+function slotHtml(i,lbl){
+  const v=APP.placed[i];
+  return '<span class="slot'+(v!==undefined?' filled':'')+'" id="slot'+i+'" onclick="dropSlot('+i+')">'+(v!==undefined?v:(lbl||'…'))+'</span>';
+}
+function bankHtml(q){
+  let h='<div class="bank" id="bank">'+q.bank.map((w,i)=>
+    '<button class="chip" id="w'+i+'" onclick="pickWord('+i+')">'+w+'</button>').join('')+'</div>';
+  if(q.layout==='pairs'){
+    h+='<div class="pairs">'+q.slots.map((s,i)=>
+      '<div class="pair"><span class="lbl">'+s.lbl+'</span>'+slotHtml(i)+'</div>').join('')+'</div>';
+  } else if(q.layout==='ordre'){
+    h+='<div class="order-list">'+q.slots.map((s,i)=>
+      '<div class="order-row"><span class="order-n">'+(i+1)+'</span><span class="lbl" style="flex:0 0 auto;font-size:.82rem;color:var(--text3)">'+s.lbl.replace(/^\d+\s—\s/,'')+'</span>'+slotHtml(i)+'</div>').join('')+'</div>';
+  } else {
+    h+=schemaHtml();
+  }
+  return h;
+}
+function schemaHtml(){
+  return '<div class="schema">'
+   +'<div class="sbox">'+slotHtml(0)+'<div class="def">Idéaux qui orientent les actions et les comportements au sein d\'un groupe social</div></div>'
+   +'<div class="arrow">▼ produisent ▼</div>'
+   +'<div class="sbox">'+slotHtml(1)+'<div class="def">Règles de conduite socialement sanctionnées, positivement ou négativement</div></div>'
+   +'<div class="arrow">▼</div>'
+   +'<div class="sbranch">'
+     +'<div class="col">'+slotHtml(2)+'<div class="tag">= officialisées</div>'+slotHtml(3)
+       +'<div class="tag">Non-respect ▼</div>'
+       +'<div class="sanct"><div class="who">Sanction organisée par l\'autorité publique</div>SANCTION<br>'+slotHtml(6)+'</div></div>'
+     +'<div class="col">'+slotHtml(4)+'<div class="tag">= non officialisées mais acceptées par la majorité</div>'+slotHtml(5)
+       +'<div class="tag">concernant les mœurs et les usages</div>'
+       +'<div class="tag">Non-respect ▼</div>'
+       +'<div class="sanct"><div class="who">Sanction diffuse, par l\'entourage</div>SANCTION<br>'+slotHtml(7)+'</div></div>'
+   +'</div></div>';
+}
+let wordSel=null;
+function pickWord(i){
+  if(APP.answered) return;
+  const q=LEVELS[APP.levelIdx].questions[APP.qIdx];
+  const el=$('w'+i);
+  if(!el||el.dataset.used==='1') return;
+  if(wordSel===i){ wordSel=null; el.classList.remove('sel'); return; }
+  document.querySelectorAll('.bank .chip.sel').forEach(c=>c.classList.remove('sel'));
+  wordSel=i; el.classList.add('sel');
+}
+function dropSlot(i){
+  if(APP.answered) return;
+  const q=LEVELS[APP.levelIdx].questions[APP.qIdx];
+  if(APP.placed[i]!==undefined){          // vider l'emplacement
+    const w=APP.placed[i]; delete APP.placed[i];
+    const idx=q.bank.indexOf(w);
+    const chip=$('w'+idx); if(chip){chip.dataset.used='0';chip.style.display='';}
+    redrawSlots(q); return;
+  }
+  if(wordSel===null) return;
+  APP.placed[i]=q.bank[wordSel];
+  const chip=$('w'+wordSel); chip.dataset.used='1'; chip.style.display='none'; chip.classList.remove('sel');
+  wordSel=null;
+  redrawSlots(q);
+}
+function redrawSlots(q){
+  q.slots.forEach((s,i)=>{
+    const el=$('slot'+i); if(!el) return;
+    const v=APP.placed[i];
+    el.className='slot'+(v!==undefined?' filled':'');
+    el.textContent = v!==undefined ? v : '…';
+  });
+}
+
+/* ---------- échelle des valeurs ---------- */
+function echelleHtml(q){
+  return '<div class="opts">'+q.values.map((v,i)=>
+    '<button class="opt" data-i="'+i+'" onclick="toggleMulti('+i+')"><span class="mark"></span><span><b>'+v.t+'</b> — <span style="color:var(--text2)">'+v.d+'</span></span></button>').join('')+'</div>'
+    +'<div class="hintline" id="echCount">Sélection : 0 / 3</div>';
+}
+
+/* ---------- sélections ---------- */
+function toggleMulti(i){
+  if(APP.answered) return;
+  const q=LEVELS[APP.levelIdx].questions[APP.qIdx];
+  const el=document.querySelector('.opt[data-i="'+i+'"]');
+  const p=APP.selSet.indexOf(i);
+  if(p>=0){ APP.selSet.splice(p,1); el.classList.remove('sel'); el.querySelector('.mark').textContent=''; }
+  else{
+    if(q.type==='echelle'&&APP.selSet.length>=3) return;
+    APP.selSet.push(i); el.classList.add('sel'); el.querySelector('.mark').textContent='✓';
+  }
+  const c=$('echCount'); if(c) c.textContent='Sélection : '+APP.selSet.length+' / 3';
+}
+
+/* =========================================================
+   CORRECTION ET FEEDBACK
+   ========================================================= */
+function award(q,factor,cat){
+  const p=Math.round(qPts(q)*factor);
+  APP.score+=p;
+  const st=APP.stats[APP.levelIdx];
+  st.pts+=p; st[cat]++;
+  refreshHeader();
+  return p;
+}
+function fbBox(cls,title,html){ $('fb').innerHTML='<div class="fb '+cls+'"><h5>'+title+'</h5>'+html+'</div>'; }
+function fillCell(q){
+  if(!q.cell) return;
+  APP.tableCells[q.cell]=q.cellText;
+  const w=$('tableWrap'); if(w) w.innerHTML=tableHtml();
+}
+function endQuestion(){
+  APP.answered=true;
+  const lv=LEVELS[APP.levelIdx];
+  const last = APP.qIdx===lv.questions.length-1;
+  $('acts').innerHTML='<button class="btn btn-main" onclick="nextQ()">'+(last?'Terminer l\'étape ➜':'Question suivante ➜')+'</button>';
+}
+function nextQ(){
+  APP.qIdx++;
+  const lv=LEVELS[APP.levelIdx];
+  if(APP.qIdx>=lv.questions.length){ finishLevel(); return; }
+  renderQuestion();
+  window.scrollTo({top:$('lvBody').offsetTop-70,behavior:'smooth'});
+}
+
+/* ---------- QCM ---------- */
+function pickQcm(i){
+  if(APP.answered) return;
+  const q=LEVELS[APP.levelIdx].questions[APP.qIdx];
+  const btns=Array.from(document.querySelectorAll('#qBody .opt'));
+  if(i===q.correct){
+    const second=APP.attempt>0;
+    btns[i].classList.add('good');
+    btns.forEach(b=>b.disabled=true);
+    award(q, second?0.5:1, second?'retry':'ok');
+    fillCell(q);
+    fbBox('ok', second?'🔄 Bonne réponse au 2<sup>e</sup> essai.':'✅ Exact.', '<p>'+q.exp+'</p>');
+    endQuestion();
+  } else if(q.hint && APP.attempt===0){
+    APP.attempt=1;
+    btns[i].classList.add('bad'); btns[i].classList.add('dim'); btns[i].disabled=true;
+    fbBox('hint','🤔 Pas encore — voici une piste','<p>'+q.hint+'</p><p style="color:var(--text3)">Il te reste un essai.</p>');
+  } else {
+    btns.forEach((b,k)=>{ b.disabled=true; if(k===q.correct) b.classList.add('good'); else if(k===i) b.classList.add('bad'); else b.classList.add('dim'); });
+    APP.stats[APP.levelIdx].shown++;
+    fillCell(q);
+    fbBox('no','👁 La bonne réponse était : '+q.options[q.correct],'<p>'+q.exp+'</p>');
+    endQuestion();
+  }
+}
+
+/* ---------- Types complexes ---------- */
+function checkComplex(){
+  if(APP.answered) return;
+  const q=LEVELS[APP.levelIdx].questions[APP.qIdx];
+  if(q.type==='multi') return checkMulti(q);
+  if(q.type==='classer') return checkClasser(q);
+  if(q.type==='bank') return checkBank(q);
+  if(q.type==='echelle') return checkEchelle(q);
+}
+
+function checkMulti(q){
+  if(APP.selSet.length===0){ fbBox('hint','Sélection vide','<p>Coche au moins une proposition avant de vérifier.</p>'); return; }
+  const want=q.multi.slice().sort((a,b)=>a-b).join(',');
+  const got=APP.selSet.slice().sort((a,b)=>a-b).join(',');
+  const btns=Array.from(document.querySelectorAll('#qBody .opt'));
+  if(want===got){
+    const second=APP.attempt>0;
+    btns.forEach((b,k)=>{ b.disabled=true; if(q.multi.includes(k)) b.classList.add('good'); else b.classList.add('dim'); });
+    award(q, second?0.5:1, second?'retry':'ok');
+    fbBox('ok', second?'🔄 Liste complète au 2<sup>e</sup> essai.':'✅ Liste complète et exacte.','<p>'+q.exp+'</p>');
+    endQuestion(); return;
+  }
+  if(APP.attempt===0 && q.hint){
+    APP.attempt=1;
+    fbBox('hint','🤔 La liste n\'est pas encore exacte','<p>'+q.hint+'</p><p style="color:var(--text3)">Ajuste ta sélection, il te reste un essai.</p>');
+    return;
+  }
+  btns.forEach((b,k)=>{
+    b.disabled=true;
+    if(q.multi.includes(k)) b.classList.add('good');
+    else if(APP.selSet.includes(k)) b.classList.add('bad');
+    else b.classList.add('dim');
+  });
+  APP.stats[APP.levelIdx].shown++;
+  fbBox('no','👁 Voici la liste complète','<p>'+q.exp+'</p>');
+  endQuestion();
+}
+
+function checkClasser(q){
+  const n=q.items.length;
+  if(Object.keys(APP.placed).length<n){
+    fbBox('hint','Il reste des étiquettes','<p>Place d\'abord toutes les étiquettes dans une colonne, puis vérifie.</p>'); return;
+  }
+  let ok=0; q.items.forEach((it,i)=>{ if(APP.placed[i]===it.b) ok++; });
+  if(ok===n){
+    const second=APP.attempt>0;
+    q.items.forEach((it,i)=>$('chip'+i).classList.add('good'));
+    award(q, second?0.5:1, second?'retry':'ok');
+    fbBox('ok', second?'🔄 Tri correct au 2<sup>e</sup> essai.':'✅ Tri parfait.','<p>'+q.exp+'</p>');
+    APP.answered=true; endQuestion(); return;
+  }
+  if(APP.attempt===0){
+    APP.attempt=1; APP.firstOk=ok;
+    q.items.forEach((it,i)=>{
+      const el=$('chip'+i);
+      if(APP.placed[i]===it.b){ el.classList.add('good'); }
+      else { el.classList.add('bad'); setTimeout(()=>el.classList.remove('bad'),900); delete APP.placed[i]; $('pool').appendChild(el); }
+    });
+    updatePoolCount();
+    fbBox('hint','🤔 '+ok+' étiquette'+(ok>1?'s':'')+' sur '+n+' au bon endroit','<p>'+q.hint+'</p><p style="color:var(--text3)">Les étiquettes mal placées sont revenues dans la réserve. Il te reste un essai.</p>');
+    return;
+  }
+  const finalOk=ok;
+  q.items.forEach((it,i)=>{
+    const el=$('chip'+i);
+    const good=APP.placed[i]===it.b;
+    el.classList.remove('sel');
+    el.classList.add(good?'good':'bad');
+    if(!good){ $('binItems'+it.b).appendChild(el); }
+  });
+  const ratio=(APP.firstOk+0.5*(finalOk-APP.firstOk))/n;
+  award(q, ratio, 'shown');
+  fbBox('no','👁 Correction — '+finalOk+'/'+n+' au bon endroit','<p>Les étiquettes en rouge ont été replacées dans la bonne colonne.</p><p>'+q.exp+'</p>');
+  APP.answered=true; endQuestion();
+}
+
+function checkBank(q){
+  const n=q.slots.length;
+  if(Object.keys(APP.placed).length<n){
+    fbBox('hint','Il reste des emplacements vides','<p>Remplis tous les emplacements, puis vérifie.</p>'); return;
+  }
+  let ok=0; q.slots.forEach((s,i)=>{ if(APP.placed[i]===s.ans) ok++; });
+  if(ok===n){
+    const second=APP.attempt>0;
+    q.slots.forEach((s,i)=>{ const el=$('slot'+i); el.className='slot good'; });
+    award(q, second?0.5:1, second?'retry':'ok');
+    fbBox('ok', second?'🔄 Tout est juste au 2<sup>e</sup> essai.':'✅ Tout est à sa place.','<p>'+q.exp+'</p>');
+    APP.answered=true; endQuestion(); return;
+  }
+  if(APP.attempt===0){
+    APP.attempt=1; APP.firstOk=ok;
+    q.slots.forEach((s,i)=>{
+      const el=$('slot'+i);
+      if(APP.placed[i]===s.ans){ el.className='slot good'; }
+      else{
+        const w=APP.placed[i]; delete APP.placed[i];
+        const idx=q.bank.indexOf(w); const chip=$('w'+idx);
+        if(chip){ chip.dataset.used='0'; chip.style.display=''; }
+        el.className='slot'; el.textContent='…';
+      }
+    });
+    fbBox('hint','🤔 '+ok+' réponse'+(ok>1?'s':'')+' correcte'+(ok>1?'s':'')+' sur '+n,'<p>'+q.hint+'</p><p style="color:var(--text3)">Les mots mal placés sont retournés dans la réserve. Il te reste un essai.</p>');
+    return;
+  }
+  const finalOk=ok;
+  let why='';
+  q.slots.forEach((s,i)=>{
+    const el=$('slot'+i);
+    const good=APP.placed[i]===s.ans;
+    el.className='slot '+(good?'good':'bad');
+    el.textContent=s.ans;
+    if(!good && s.why) why+='<p><b>'+s.ans+'</b> — '+s.why+'</p>';
+  });
+  const ratio=(APP.firstOk+0.5*(finalOk-APP.firstOk))/n;
+  award(q, ratio, 'shown');
+  fbBox('no','👁 Correction — '+finalOk+'/'+n+' correct'+(finalOk>1?'s':''), why+'<p>'+q.exp+'</p>');
+  APP.answered=true; endQuestion();
+}
+
+function checkEchelle(q){
+  if(APP.selSet.length<3){ fbBox('hint','Il en manque','<p>Choisis exactement 3 valeurs.</p>'); return; }
+  const btns=Array.from(document.querySelectorAll('#qBody .opt'));
+  btns.forEach((b,k)=>{ b.disabled=true; if(!APP.selSet.includes(k)) b.classList.add('dim'); else b.classList.add('good'); });
+  const noms=APP.selSet.map(i=>q.values[i].t);
+  award(q,1,'ok');
+  fbBox('ok','✅ Ton échelle des valeurs','<p>Tes trois valeurs : <b>'+noms.join('</b>, <b>')+'</b>.</p><p>'+q.exp+'</p>');
+  endQuestion();
+}
+
+/* =========================================================
+   FIN DE NIVEAU
+   ========================================================= */
+function finishLevel(){
+  const i=APP.levelIdx;
+  if(!APP.completedExercises.includes(i)){
+    APP.completedExercises.push(i);
+    APP.completed.add(i);
+    const r=stopExerciseTimer(i);
+    if(r) sendResult('Étape '+(i+1)+' — '+LEVELS[i].title, r.points, levelMax(LEVELS[i]), r.temps);
+  }
+  renderResult(i);
+  show('screenResult');
+  refreshHeader();
+}
+
+function medalFor(pct){ return pct>=90?'🏆':pct>=70?'🥇':pct>=50?'🥈':'🥉'; }
+function legendHtml(){
+  return '<div class="legend">'
+   +'<span><i class="dotc" style="background:var(--success)"></i> Trouvé du 1<sup>er</sup> coup</span>'
+   +'<span><i class="dotc" style="background:var(--orange)"></i> Corrigé au 2<sup>e</sup> essai</span>'
+   +'<span><i class="dotc" style="background:var(--error)"></i> Réponse montrée</span></div>';
+}
+
+function renderResult(i){
+  const lv=LEVELS[i], st=APP.stats[i];
+  const pct=Math.round(st.pts/st.max*100);
+  const allDone=APP.completed.size===TOTAL;
+  let msg;
+  if(pct>=90) msg="Maîtrise complète de cette étape. Tu peux enchaîner.";
+  else if(pct>=70) msg="Bonne étape. Relis le feedback des questions ratées avant de continuer.";
+  else if(pct>=50) msg="La logique est là, mais elle n'est pas encore automatique. Relis la théorie de l'étape.";
+  else msg="Cette étape n'est pas acquise. Reprends la théorie du haut de page, puis reviens-y.";
+  let h='<div class="res-head"><div class="medal">'+medalFor(pct)+'</div>'
+   +'<h2>Étape '+(i+1)+' terminée</h2><p>'+lv.title+'</p>'
+   +'<div class="scorebig">'+st.pts+' / '+st.max+'</div><p>'+pct+' % de réussite</p></div>';
+  h+=legendHtml();
+  h+='<table class="tbl"><tr><th>Résultat</th><th style="text-align:center">Questions</th></tr>'
+   +'<tr><td>✅ Trouvé du 1<sup>er</sup> coup</td><td class="n">'+st.ok+'</td></tr>'
+   +'<tr><td>🔄 Corrigé au 2<sup>e</sup> essai</td><td class="n">'+st.retry+'</td></tr>'
+   +'<tr><td>👁 Réponse montrée</td><td class="n">'+st.shown+'</td></tr></table>';
+  h+='<div class="goal" style="margin-top:18px">'+msg+'</div>';
+  h+='<div class="btn-row">';
+  if(allDone) h+='<button class="btn btn-main" onclick="renderFinal()">Voir mon bilan final 🏁</button>';
+  else if(i+1<TOTAL) h+='<button class="btn btn-main" onclick="openLevel('+(i+1)+')">Étape suivante ➜</button>';
+  h+='<button class="btn btn-soft" onclick="goHub()">← Toutes les étapes</button></div>';
+  $('resBody').innerHTML=h;
+}
+
+/* =========================================================
+   BILAN FINAL
+   ========================================================= */
+function renderFinal(){
+  let pts=0,max=0,ok=0,rt=0,sh=0;
+  LEVELS.forEach((lv,i)=>{ const s=APP.stats[i]; if(s){pts+=s.pts;max+=s.max;ok+=s.ok;rt+=s.retry;sh+=s.shown;} });
+  const pct=max?Math.round(pts/max*100):0;
+  const grade = pct>=85?['A','Excellent','var(--success)']
+              : pct>=65?['B','Très bien','var(--accent)']
+              : pct>=45?['C','Satisfaisant','var(--orange)']
+              : ['D','À retravailler','var(--error)'];
+  let h='<div class="res-head"><div class="medal">'+medalFor(pct)+'</div><h2>Enquête terminée</h2>'
+   +'<p>Tu sais maintenant analyser le contexte sociologique d\'un acte.</p></div>';
+  h+='<div class="gradebox"><div class="g" style="color:'+grade[2]+'">'+grade[0]+' — '+grade[1]+'</div>'
+   +'<div class="scorebig">'+pts+' / '+max+'</div><p style="color:var(--text2)">'+pct+' % de réussite</p></div>';
+  h+=legendHtml();
+  h+='<table class="tbl"><tr><th>Étape</th><th style="text-align:center">✅</th><th style="text-align:center">🔄</th><th style="text-align:center">👁</th><th style="text-align:center">Points</th></tr>';
+  LEVELS.forEach((lv,i)=>{
+    const s=APP.stats[i];
+    h+='<tr><td>'+lv.icon+' '+lv.title+'</td>'
+     +'<td class="n">'+(s?s.ok:'—')+'</td><td class="n">'+(s?s.retry:'—')+'</td><td class="n">'+(s?s.shown:'—')+'</td>'
+     +'<td class="n">'+(s?s.pts+'/'+s.max:'—')+'</td></tr>';
+  });
+  h+='</table>';
+  h+='<div class="theory" style="margin-top:22px"><h3>À retenir pour ton évaluation</h3>'
+   +'<ul><li><b>Agents de socialisation</b> : les groupes qui t\'apprennent à vivre en société (famille, école, amis, club, médias, collègues).</li>'
+   +'<li><b>Norme</b> : la règle. Écrite = formelle ; non écrite = informelle.</li>'
+   +'<li><b>Valeur</b> : l\'idéal qui justifie la règle. Les normes sont dérivées des valeurs.</li>'
+   +'<li><b>Sanction</b> : explicite (prévue par écrit, prononcée par une autorité) ou non explicite (diffuse, prononcée par l\'entourage). Positive si elle récompense, négative si elle dissuade.</li>'
+   +'<li><b>Transgression</b> : d\'une norme informelle = déviance ; d\'une norme formelle = délinquance.</li></ul></div>';
+  h+='<div class="btn-row"><button class="btn btn-ghost" onclick="openLB(\'app\')">🏆 Classement</button>'
+   +'<button class="btn btn-orange" onclick="openLB(\'global\')">🌍 Général</button>'
+   +'<button class="btn btn-soft" onclick="restartAll()">🔄 Rejouer</button></div>';
+  $('finBody').innerHTML=h;
+  show('screenFinal');
+  if(pct>=70) confetti();
+}
+
+function confetti(){
+  const box=$('confetti'), cols=['#22d68a','#ff8a3d','#9d7cf4','#4bb8ff','#ffffff'];
+  for(let i=0;i<90;i++){
+    const d=document.createElement('div');
+    d.className='cf';
+    d.style.left=Math.random()*100+'vw';
+    d.style.top=(-12-Math.random()*30)+'vh';
+    d.style.background=cols[i%cols.length];
+    d.style.animationDuration=(2.4+Math.random()*2)+'s';
+    d.style.animationDelay=(Math.random()*.7)+'s';
+    box.appendChild(d);
+    setTimeout(()=>d.remove(),5600);
+  }
+}
+
+function restartAll(){
+  TRACKING.sessionId=new Date().toISOString();
+  APP.score=0; APP.completed=new Set(); APP.stats={};
+  APP.completedExercises=[]; APP.exerciseTimes={}; APP.exerciseScores={};
+  APP.scoreBeforeExercise=0; APP.tableCells={}; APP.levelIdx=0; APP.qIdx=0;
+  APP.globalTimerStart=Date.now();
+  refreshHeader(); goHub();
+}
+function resetProgression(){
+  APP.score=0; APP.completed=new Set(); APP.stats={};
+  APP.completedExercises=[]; APP.exerciseTimes={}; APP.exerciseScores={};
+  APP.scoreBeforeExercise=0; APP.tableCells={};
+  refreshHeader();
+}
+
+function init(){
+  refreshId(); refreshHeader(); renderHub();
+  showEmailModal();
+}
+
+/* =========================================================
+   TRACKING — Configuration (SPEC_Tracking_Eleves_v5)
+   ========================================================= */
+const TRACKING = {
+  appName: "Analyse Sociologique",
+  totalNiveaux: 9,
+  sessionId: null,
+  scriptUrl: "https://script.google.com/macros/s/AKfycbx9bRMVuHU2mgFLii1KcQXD3LdZahnDH1rf1cWv9RuDvQAt0l3VtLtxzmbH7MtpJWRjfA/exec"
+};
+
+/* ---------- Modal Email ---------- */
+function showEmailModal(){
+  const overlay=document.getElementById('emailOverlay');
+  overlay.style.display='flex';
+  const input=document.getElementById('emailInput');
+  const saved=localStorage.getItem('student_email');
+  if(saved) input.value=saved;
+  input.focus();
+  document.getElementById('emailError').textContent='';
+}
+
+function validateEmail(){
+  const input=document.getElementById('emailInput');
+  const btn=document.getElementById('emailBtn');
+  const errDiv=document.getElementById('emailError');
+  const email=input.value.trim().toLowerCase();
+
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    errDiv.textContent='⚠️ Entre une adresse email valide.';
+    input.style.borderColor='#ff4060';
+    return;
+  }
+  btn.textContent='⏳ Vérification…'; btn.disabled=true;
+  errDiv.textContent=''; input.style.borderColor='';
+
+  const cbName='_emailCb_'+Date.now();
+  const timeout=setTimeout(()=>{
+    delete window[cbName];
+    const s=document.getElementById(cbName); if(s) s.remove();
+    errDiv.textContent='⚠️ Connexion impossible. Vérifie ta connexion internet.';
+    btn.textContent='✅ Vérifier et commencer'; btn.disabled=false;
+  },10000);
+
+  window[cbName]=function(resp){
+    clearTimeout(timeout); delete window[cbName];
+    const s=document.getElementById(cbName); if(s) s.remove();
+    btn.textContent='✅ Vérifier et commencer'; btn.disabled=false;
+
+    if(resp && resp.found){
+      const oldEmail=localStorage.getItem('student_email');
+      localStorage.setItem('student_email',email);
+      localStorage.setItem('student_classe',resp.classe||'');
+      APP.email=email; APP.classe=resp.classe||'';
+      if(oldEmail && oldEmail!==email) resetProgression();
+      TRACKING.sessionId=new Date().toISOString();
+      document.getElementById('emailOverlay').style.display='none';
+      startGlobalTimer();
+      refreshId();
+    } else {
+      errDiv.textContent="⚠️ Cette adresse email n'est pas enregistrée. Vérifie l'orthographe ou demande à ton professeur de t'ajouter à la liste.";
+      input.style.borderColor='#ff4060';
+    }
+  };
+
+  const s=document.createElement('script');
+  s.id=cbName;
+  s.src=TRACKING.scriptUrl+'?action=check_email&email='+encodeURIComponent(email)+'&callback='+cbName;
+  s.onerror=()=>{
+    clearTimeout(timeout); delete window[cbName]; s.remove();
+    errDiv.textContent='⚠️ Erreur de connexion au serveur.';
+    btn.textContent='✅ Vérifier et commencer'; btn.disabled=false;
+  };
+  document.body.appendChild(s);
+}
+
+/* ---------- Chronomètres ---------- */
+function startGlobalTimer(){
+  APP.globalTimerStart=Date.now();
+  const el=document.getElementById('globalTimer');
+  if(el) el.style.display='inline';
+  APP.globalTimerInterval=setInterval(updateTimerDisplay,1000);
+  updateTimerDisplay();
+}
+function updateTimerDisplay(){
+  const el=document.getElementById('globalTimer');
+  if(!el||!APP.globalTimerStart) return;
+  const e=Math.floor((Date.now()-APP.globalTimerStart)/1000);
+  el.textContent='⏱️ '+String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
+}
+function startExerciseTimer(exIdx){
+  APP.exerciseStartTime=Date.now();
+  APP.scoreBeforeExercise=APP.score||0;
+}
+function stopExerciseTimer(exIdx){
+  if(!APP.exerciseStartTime) return null;
+  const t=Math.round((Date.now()-APP.exerciseStartTime)/1000);
+  APP.exerciseTimes[exIdx]=t;
+  APP.exerciseStartTime=null;
+  const delta=(APP.score||0)-APP.scoreBeforeExercise;
+  APP.exerciseScores[exIdx]=delta;
+  return {points:delta, temps:t};
+}
+
+/* ---------- Envoi des résultats ---------- */
+function sendResult(niveau,points,pointsMax,temps){
+  if(!APP.email) return;
+  const payload={
+    email:APP.email, classe:APP.classe, app:TRACKING.appName,
+    niveau:niveau, points:points, pointsMax:pointsMax, temps:temps,
+    totalNiveaux:TRACKING.totalNiveaux, sessionId:TRACKING.sessionId
+  };
+  console.log('[TRACKING] Envoi:',payload);
+  fetch(TRACKING.scriptUrl,{
+    method:"POST", mode:"no-cors",
+    headers:{"Content-Type":"text/plain"},
+    body:JSON.stringify(payload)
+  }).catch(err=>console.warn('[TRACKING] Erreur:',err));
+}
+
+/* ---------- Classements ---------- */
+let currentLBTab='app';
+function openLB(tab){ document.getElementById('lbOverlay').style.display='block'; switchLBTab(tab||'app'); }
+function closeLB(){ document.getElementById('lbOverlay').style.display='none'; }
+function switchLBTab(tab){
+  currentLBTab=tab;
+  const a=document.getElementById('lbTabApp'), g=document.getElementById('lbTabGlobal');
+  if(tab==='app'){
+    a.style.background='var(--accent)'; a.style.color='#0f1117';
+    g.style.background='transparent'; g.style.color='var(--orange)';
+    document.getElementById('lbTitle').textContent='🏆 Classement — '+TRACKING.appName+(APP.classe?' ('+APP.classe+')':'');
+  } else {
+    g.style.background='var(--orange)'; g.style.color='#0f1117';
+    a.style.background='transparent'; a.style.color='var(--accent)';
+    document.getElementById('lbTitle').textContent='🌍 Classement général'+(APP.classe?' ('+APP.classe+')':'');
+  }
+  fetchLeaderboard(tab);
+}
+function fetchLeaderboard(tab){
+  const content=document.getElementById('lbContent');
+  content.innerHTML='<div style="text-align:center;padding:40px;color:var(--text2);">⏳ Chargement…</div>';
+  const action = tab==='app' ? 'leaderboard_app' : 'leaderboard_global';
+  const cbName='_lbCb_'+Date.now();
+  const timeout=setTimeout(()=>{
+    delete window[cbName]; const s=document.getElementById(cbName); if(s)s.remove();
+    content.innerHTML='<div style="text-align:center;padding:40px;"><div style="color:#ff4060;margin-bottom:12px;">⚠️ Connexion impossible</div><button onclick="fetchLeaderboard(\''+tab+'\')" style="padding:8px 20px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text);cursor:pointer;font-family:inherit;">Réessayer</button></div>';
+  },10000);
+
+  window[cbName]=function(resp){
+    clearTimeout(timeout); delete window[cbName];
+    const s=document.getElementById(cbName); if(s)s.remove();
+    const lbData = resp && (resp.leaderboard || resp.data);
+    if(!lbData || lbData.length===0){
+      content.innerHTML='<div style="text-align:center;padding:40px;color:var(--text2);">🏁 Aucun résultat pour le moment</div>';
+      return;
+    }
+    renderLeaderboard(lbData,tab);
+  };
+
+  let url=TRACKING.scriptUrl+'?action='+action+'&callback='+cbName+'&mode=last';
+  if(tab==='app') url+='&app='+encodeURIComponent(TRACKING.appName);
+  if(APP.classe) url+='&classe='+encodeURIComponent(APP.classe);
+  const s=document.createElement('script');
+  s.id=cbName; s.src=url;
+  s.onerror=()=>{ clearTimeout(timeout); delete window[cbName]; s.remove();
+    content.innerHTML='<div style="text-align:center;padding:40px;color:#ff4060;">⚠️ Erreur de connexion</div>'; };
+  document.body.appendChild(s);
+}
+function renderLeaderboard(data,tab){
+  const content=document.getElementById('lbContent');
+  const myEmail=(APP.email||'').toLowerCase();
+  if(tab==='global' && data.length>0){
+    data=data.slice().sort((a,b)=>{
+      const pa=a.pct||0, pb=b.pct||0;
+      if(pb!==pa) return pb-pa;
+      return (a.totalTemps||0)-(b.totalTemps||0);
+    });
+    data.forEach((e,i)=>{ e.rang=i+1; });
+  }
+  const me=data.find(r=>r.email===myEmail);
+  let html='';
+  if(me){
+    const pct = me.pct!=null?me.pct:(me.pourcentage!=null?me.pourcentage:0);
+    const count = tab==='app' ? (me.niveauxCompletes||me.niveaux||0) : (me.appsCompletes||me.apps||0);
+    const total = tab==='app' ? (me.totalNiveaux||0) : (me.totalPossibleNiveaux||0);
+    const label = tab==='app'?'niveaux':'apps';
+    const prog = total>0 ? count+'/'+total+' '+label : count+' '+label;
+    html+='<div style="background:rgba(34,214,138,0.08);border:1px solid rgba(34,214,138,0.3);border-radius:12px;padding:16px;margin-bottom:16px;display:flex;justify-content:space-around;text-align:center;">'
+      +'<div><div style="font-size:1.3rem;font-weight:800;color:var(--accent);">#'+me.rang+'</div><div style="font-size:0.7rem;color:var(--text2);">RANG</div></div>'
+      +'<div><div style="font-size:1.3rem;font-weight:800;">'+me.totalPoints+'</div><div style="font-size:0.7rem;color:var(--text2);">POINTS</div></div>'
+      +'<div><div style="font-size:1.3rem;font-weight:800;color:'+(pct>=80?'#22d68a':pct>=50?'#ff8a3d':'#ff4060')+';">'+pct+'%</div><div style="font-size:0.7rem;color:var(--text2);">RÉUSSITE</div></div>'
+      +'<div><div style="font-size:1.3rem;font-weight:800;color:var(--text2);">'+prog+'</div><div style="font-size:0.7rem;color:var(--text2);">PROGRESSION</div></div></div>';
+  }
+  const medals=['🥇','🥈','🥉'];
+  html+='<table style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tr style="border-bottom:1px solid var(--border);"><th style="text-align:left;padding:8px 4px;color:var(--text2);font-size:0.72rem;">#</th><th style="text-align:left;padding:8px 4px;color:var(--text2);font-size:0.72rem;">Élève</th><th style="text-align:right;padding:8px 4px;color:var(--text2);font-size:0.72rem;">Pts</th><th style="text-align:right;padding:8px 4px;color:var(--text2);font-size:0.72rem;">%</th><th style="text-align:right;padding:8px 4px;color:var(--text2);font-size:0.72rem;">Temps</th></tr>';
+  data.forEach(row=>{
+    const r=row.rang||0;
+    const name=row.email.split('@')[0].split(/[._-]/).map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+    const pct=row.pct!=null?row.pct:(row.pourcentage!=null?row.pourcentage:0);
+    const temps=row.totalTemps||row.totalTime||0;
+    const isMe=row.email===myEmail;
+    const pctC=pct>=80?'#22d68a':pct>=50?'#ff8a3d':'#ff4060';
+    let tStr='—'; if(temps>0){const m=Math.floor(temps/60),sec=temps%60;tStr=m>0?m+'m'+String(sec).padStart(2,'0')+'s':sec+'s';}
+    html+='<tr style="border-bottom:1px solid rgba(255,255,255,0.03);background:'+(isMe?'rgba(34,214,138,0.08)':'transparent')+';">'
+      +'<td style="padding:8px 4px;font-weight:700;">'+(r<=3&&r>=1?medals[r-1]:r)+'</td>'
+      +'<td style="padding:8px 4px;'+(isMe?'font-weight:800;color:var(--accent);':'')+'">'+name+'</td>'
+      +'<td style="padding:8px 4px;text-align:right;font-weight:700;color:var(--accent);">'+row.totalPoints+'</td>'
+      +'<td style="padding:8px 4px;text-align:right;font-weight:700;color:'+pctC+';">'+pct+'%</td>'
+      +'<td style="padding:8px 4px;text-align:right;color:var(--text2);font-family:monospace;font-size:0.78rem;">'+tStr+'</td></tr>';
+  });
+  html+='</table>';
+  content.innerHTML=html;
+}
+
+init();
+</script>
+</body>
+</html>
